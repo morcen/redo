@@ -27,7 +27,7 @@ export function getTimezoneOffset(): number {
 export function offsetToTimezone(offset: number): string {
     const offsetHours = Math.abs(offset / 60);
     const sign = offset > 0 ? '-' : '+';
-    
+
     // This is a simplified mapping - in production you'd want a more comprehensive one
     const timezoneMap: Record<string, string> = {
         '0': 'UTC',
@@ -39,25 +39,17 @@ export function offsetToTimezone(offset: number): string {
         '-9': 'Asia/Tokyo',
         '-8': 'Asia/Shanghai',
     };
-    
+
     return timezoneMap[`${sign}${offsetHours}`] || 'UTC';
 }
-
-
-
-
 
 /**
  * Format date according to user's timezone and preferences
  */
-export function formatDateInTimezone(
-    date: string | Date,
-    timezone: string = 'UTC',
-    options: Intl.DateTimeFormatOptions = {}
-): string {
+export function formatDateInTimezone(date: string | Date, timezone: string = 'UTC', options: Intl.DateTimeFormatOptions = {}): string {
     try {
         const dateObj = typeof date === 'string' ? new Date(date) : date;
-        
+
         return new Intl.DateTimeFormat('en-US', {
             timeZone: timezone,
             ...options,

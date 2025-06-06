@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Progress } from '@/components/ui/progress';
 import { type TodoList } from '@/types';
-import { useForm, router } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
+import { Copy, Edit, MoreHorizontal, RotateCcw, Trash2 } from 'lucide-vue-next';
 import { computed } from 'vue';
-import { Edit, MoreHorizontal, Trash2, RotateCcw, Copy } from 'lucide-vue-next';
 
 interface Props {
     list: TodoList;
@@ -64,47 +59,38 @@ const handleDelete = () => {
 </script>
 
 <template>
-    <Card class="transition-all hover:shadow-md cursor-pointer" @click="handleManageTodos">
+    <Card class="cursor-pointer transition-all hover:shadow-md" @click="handleManageTodos">
         <CardContent class="p-4">
             <div class="flex items-start justify-between gap-3">
                 <!-- Content -->
-                <div class="flex-1 min-w-0">
+                <div class="min-w-0 flex-1">
                     <div class="flex items-center gap-2">
-                        <h3 class="font-medium text-sm">
+                        <h3 class="text-sm font-medium">
                             {{ list.name }}
                         </h3>
                         <div
                             v-if="list.refresh_daily"
-                            class="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs"
+                            class="flex items-center gap-1 rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700"
                             title="This list refreshes daily"
                         >
                             <RotateCcw class="h-3 w-3" />
                             <span>Daily</span>
                         </div>
                     </div>
-                    <p
-                        v-if="list.description"
-                        class="text-sm text-muted-foreground mt-1"
-                    >
+                    <p v-if="list.description" class="text-muted-foreground mt-1 text-sm">
                         {{ list.description }}
                     </p>
 
                     <!-- Completion Progress -->
                     <div v-if="totalTodos > 0" class="mt-3 space-y-2">
-                        <div class="flex items-center justify-between text-xs text-muted-foreground">
+                        <div class="text-muted-foreground flex items-center justify-between text-xs">
                             <span>{{ completedTodos }} of {{ totalTodos }} completed</span>
                             <span>{{ Math.round(completionPercentage) }}%</span>
                         </div>
-                        <Progress
-                            :value="completionPercentage"
-                            :max="100"
-                            size="sm"
-                            :show-percentage="false"
-                            class="w-full"
-                        />
+                        <Progress :value="completionPercentage" :max="100" size="sm" :show-percentage="false" class="w-full" />
                     </div>
                     <div v-else class="mt-2">
-                        <span class="text-xs text-muted-foreground">No todos yet</span>
+                        <span class="text-muted-foreground text-xs">No todos yet</span>
                     </div>
                 </div>
 

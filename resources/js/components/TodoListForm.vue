@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 import { type TodoList } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { computed, watch } from 'vue';
@@ -39,15 +32,19 @@ const form = useForm({
 });
 
 // Watch for list prop changes to populate form
-watch(() => props.list, (list) => {
-    if (list) {
-        form.name = list.name;
-        form.description = list.description || '';
-        form.refresh_daily = list.refresh_daily || false;
-    } else {
-        form.reset();
-    }
-}, { immediate: true });
+watch(
+    () => props.list,
+    (list) => {
+        if (list) {
+            form.name = list.name;
+            form.description = list.description || '';
+            form.refresh_daily = list.refresh_daily || false;
+        } else {
+            form.reset();
+        }
+    },
+    { immediate: true },
+);
 
 const handleSubmit = () => {
     if (isEditing.value && props.list) {
@@ -86,12 +83,7 @@ const handleClose = () => {
             <form @submit.prevent="handleSubmit" class="space-y-4">
                 <div class="space-y-2">
                     <Label for="name">Name</Label>
-                    <Input
-                        id="name"
-                        v-model="form.name"
-                        placeholder="Enter list name"
-                        :class="{ 'border-red-500': form.errors.name }"
-                    />
+                    <Input id="name" v-model="form.name" placeholder="Enter list name" :class="{ 'border-red-500': form.errors.name }" />
                     <p v-if="form.errors.name" class="text-sm text-red-500">
                         {{ form.errors.name }}
                     </p>
@@ -113,28 +105,21 @@ const handleClose = () => {
 
                 <div class="space-y-2">
                     <div class="flex items-center space-x-2">
-                        <Switch
-                            id="refresh_daily"
-                            v-model:checked="form.refresh_daily"
-                        />
-                        <Label for="refresh_daily" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        <Switch id="refresh_daily" v-model:checked="form.refresh_daily" />
+                        <Label for="refresh_daily" class="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                             Refresh daily
                         </Label>
                     </div>
-                    <p class="text-xs text-muted-foreground">
-                        When enabled, todos from this list will be recreated each day
-                    </p>
+                    <p class="text-muted-foreground text-xs">When enabled, todos from this list will be recreated each day</p>
                     <p v-if="form.errors.refresh_daily" class="text-sm text-red-500">
                         {{ form.errors.refresh_daily }}
                     </p>
                 </div>
 
                 <DialogFooter>
-                    <Button type="button" variant="outline" @click="handleClose">
-                        Cancel
-                    </Button>
+                    <Button type="button" variant="outline" @click="handleClose"> Cancel </Button>
                     <Button type="submit" :disabled="form.processing">
-                        {{ form.processing ? 'Saving...' : (isEditing ? 'Update List' : 'Create List') }}
+                        {{ form.processing ? 'Saving...' : isEditing ? 'Update List' : 'Create List' }}
                     </Button>
                 </DialogFooter>
             </form>
