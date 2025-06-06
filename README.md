@@ -4,8 +4,8 @@
 
 Unlike traditional todo apps that leave you managing the same recurring tasks over and over, re:do revolutionizes task management with intelligent daily recreation. Built with Laravel and Vue.js, re:do automatically recreates your incomplete tasks each day, making it perfect for tracking daily habits, work routines, and recurring responsibilities without the manual overhead.
 
-![Tests](https://github.com/morcen/re-do/actions/workflows/tests.yml/badge.svg)
-![Linter](https://github.com/morcen/re-do/actions/workflows/lint.yml/badge.svg)
+[![Code Quality](https://github.com/morcen/redo/actions/workflows/lint.yml/badge.svg)](https://github.com/morcen/redo/actions/workflows/lint.yml)
+[![Tests](https://github.com/morcen/redo/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/morcen/redo/actions/workflows/tests.yml)
 ![Laravel](https://img.shields.io/badge/Laravel-12.x-red?style=flat-square&logo=laravel)
 ![Vue.js](https://img.shields.io/badge/Vue.js-3.x-green?style=flat-square&logo=vue.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)
