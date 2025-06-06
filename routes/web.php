@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\TodoListController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -30,10 +30,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return response()->json([
             'available_dates' => $todos->pluck('date'),
-            'todos_by_date' => $todos
+            'todos_by_date' => $todos,
         ]);
     });
-
 
 });
 

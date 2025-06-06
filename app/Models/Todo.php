@@ -14,6 +14,7 @@ class Todo extends Model
      * The attributes that are mass assignable.
      *
      * TODO: add order_number
+     *
      * @var array<int, string>
      */
     protected $fillable = [

@@ -78,7 +78,7 @@ class User extends Authenticatable
      */
     public function getSettingsAttribute()
     {
-        if (!$this->settings) {
+        if (! $this->settings) {
             $this->settings()->create(Setting::getDefaults());
             $this->load('settings');
         }
