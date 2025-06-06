@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,6 +15,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('settings/password', [PasswordController::class, 'edit'])->name('password.edit');
     Route::put('settings/password', [PasswordController::class, 'update'])->name('password.update');
+
+    Route::get('settings/general', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::patch('settings/general', [SettingController::class, 'update'])->name('settings.update');
+    Route::post('settings/timezone', [SettingController::class, 'updateTimezone'])->name('settings.timezone');
 
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/Appearance');

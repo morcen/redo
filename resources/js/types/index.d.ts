@@ -36,4 +36,52 @@ export interface User {
     updated_at: string;
 }
 
+export interface Setting {
+    id: number;
+    user_id: number;
+    timezone: string;
+    date_format: string;
+    time_format: string;
+    email_notifications: boolean;
+    browser_notifications: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Todo {
+    id: number;
+    user_id: number;
+    todo_list_id: number;
+    title: string;
+    description?: string;
+    completed: boolean;
+    priority: 'low' | 'medium' | 'high';
+    due_date?: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface TodoList {
+    id: number;
+    name: string;
+    description?: string;
+    refresh_daily: boolean;
+    created_at: string;
+    updated_at: string;
+    completion_percentage?: number;
+    total_todos?: number;
+    completed_todos?: number;
+    // Date-filtered completion stats
+    filtered_completion_percentage?: number;
+    filtered_total_todos?: number;
+    filtered_completed_todos?: number;
+}
+
+export interface TodoFilters {
+    completed?: boolean;
+    priority?: 'low' | 'medium' | 'high';
+    search?: string;
+    date?: string;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
