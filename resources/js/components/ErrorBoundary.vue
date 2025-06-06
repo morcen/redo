@@ -66,9 +66,9 @@ provide('resetError', resetError);
                 </div>
                 <div class="ml-3">
                     <h3 class="text-sm font-medium text-red-800">
-                        {{ fallback }}
+                        {{ props.fallback }}
                     </h3>
-                    <div v-if="showError && errorMessage" class="mt-2 text-sm text-red-700">
+                    <div v-if="props.showError && errorMessage" class="mt-2 text-sm text-red-700">
                         {{ errorMessage }}
                     </div>
                     <div class="mt-4">

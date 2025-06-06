@@ -20,7 +20,7 @@ const handleEdit = (list: TodoList) => {
 
 <template>
     <div class="space-y-4">
-        <div v-if="lists.length === 0" class="py-12 text-center">
+        <div v-if="props.lists.length === 0" class="py-12 text-center">
             <div class="mx-auto max-w-sm">
                 <div class="mb-4">
                     <svg class="text-muted-foreground mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
