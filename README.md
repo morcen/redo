@@ -1,4 +1,4 @@
-# re:do 📝
+# Re:do 📝
 
 **The only todo app that truly understands your daily routine.**
 
@@ -12,10 +12,10 @@ Unlike traditional todo apps that leave you managing the same recurring tasks ov
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-blue?style=flat-square&logo=tailwindcss)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-## ✨ What Makes re:do Different
+## ✨ What Makes Re:do Different
 
 ### 🔄 Revolutionary Daily Recreation System
-**The game-changer that sets re:do apart from every other todo app:**
+**The game-changer that sets Re:do apart from every other todo app:**
 - **Intelligent Task Continuity**: Automatically recreates yesterday's incomplete tasks each morning
 - **Timezone-Aware Processing**: Respects user timezones to recreate tasks at the right moment
 - **Selective Recreation**: Choose which lists should refresh daily vs. permanent project lists
@@ -60,8 +60,8 @@ Unlike traditional todo apps that leave you managing the same recurring tasks ov
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/morcen/re-do.git
-   cd re-do
+   git clone https://github.com/morcen/redo.git
+   cd redo
    ```
 
 2. **Install PHP dependencies**
@@ -205,9 +205,9 @@ database/
 └── seeders/
 ```
 
-## 🆚 Why Choose re:do Over Other Todo Apps?
+## 🆚 Why Choose Re:do Over Other Todo Apps?
 
-| Feature | re:do | Traditional Todo Apps |
+| Feature | Re:do | Traditional Todo Apps |
 |---------|-------|----------------------|
 | **Daily Task Recreation** | ✅ Automatic & intelligent | ❌ Manual copy/paste every day |
 | **Habit Tracking** | ✅ Built-in with zero effort | ❌ Requires separate habit apps |
@@ -280,8 +280,8 @@ This project is open source and available under the [MIT License](LICENSE).
 <div align="center">
   <p>Made with ❤️ by the re:do team</p>
   <p>
-    <a href="https://github.com/morcen/re-do/issues">Report Bug</a> •
-    <a href="https://github.com/morcen/re-do/issues">Request Feature</a> •
-    <a href="https://github.com/morcen/re-do/discussions">Discussions</a>
+    <a href="https://github.com/morcen/redo/issues">Report Bug</a> •
+    <a href="https://github.com/morcen/redo/issues">Request Feature</a> •
+    <a href="https://github.com/morcen/redo/discussions">Discussions</a>
   </p>
 </div>
