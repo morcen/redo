@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Models\TodoList;
 
 test('hierarchical ownership model works correctly', function () {
     $user1 = User::factory()->create();
@@ -34,7 +33,7 @@ test('hierarchical ownership model works correctly', function () {
     // Verify ownership through relationships
     expect($list1->user_id)->toBe($user1->id);
     expect($list2->user_id)->toBe($user2->id);
-    
+
     // Verify todos belong to correct lists
     expect($todo1->todo_list_id)->toBe($list1->id);
     expect($todo2->todo_list_id)->toBe($list2->id);
@@ -42,14 +41,14 @@ test('hierarchical ownership model works correctly', function () {
     // Verify user can access their own todos through the relationship
     expect($user1->todos()->count())->toBe(1);
     expect($user2->todos()->count())->toBe(1);
-    
+
     expect($user1->todos()->first()->title)->toBe('User 1 Todo');
     expect($user2->todos()->first()->title)->toBe('User 2 Todo');
 
     // Verify users can only see their own todo lists
     expect($user1->todoLists()->count())->toBe(1);
     expect($user2->todoLists()->count())->toBe(1);
-    
+
     expect($user1->todoLists()->first()->name)->toBe('User 1 List');
     expect($user2->todoLists()->first()->name)->toBe('User 2 List');
 });

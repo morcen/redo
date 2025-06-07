@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use App\Models\TodoList;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +18,6 @@ class TodoFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
             'todo_list_id' => TodoList::factory(),
             'title' => fake()->sentence(3),
             'description' => fake()->optional()->paragraph(),
@@ -56,6 +54,36 @@ class TodoFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'priority' => 'high',
+        ]);
+    }
+
+    /**
+     * Indicate that the todo has medium priority.
+     */
+    public function mediumPriority(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'priority' => 'medium',
+        ]);
+    }
+
+    /**
+     * Indicate that the todo has low priority.
+     */
+    public function lowPriority(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'priority' => 'low',
+        ]);
+    }
+
+    /**
+     * Indicate that the todo has a due date.
+     */
+    public function withDueDate(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'due_date' => fake()->dateTimeBetween('now', '+1 month'),
         ]);
     }
 

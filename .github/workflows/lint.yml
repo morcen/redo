@@ -1,4 +1,4 @@
-name: linter
+name: Code Quality
 
 on:
   push:
@@ -14,30 +14,50 @@ permissions:
   contents: write
 
 jobs:
-  quality:
+  code-quality:
+    name: Code Quality Checks
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
+          tools: composer:v2
 
-      - name: Install Dependencies
-        run: |
-          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-          npm install
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
 
-      - name: Run Pint
-        run: vendor/bin/pint
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-${{ runner.os }}-
 
-      - name: Format Frontend
-        run: npm run format
+      - name: Install Composer dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Lint Frontend
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Check PHP code style (Pint)
+        run: vendor/bin/pint --test
+
+      - name: Format frontend code (Prettier)
+        run: npm run format:check
+
+      - name: Lint frontend code (ESLint)
         run: npm run lint
 
+      # Uncomment to auto-fix code style issues
       # - name: Commit Changes
       #   uses: stefanzweifel/git-auto-commit-action@v5
       #   with:

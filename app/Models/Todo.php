@@ -14,6 +14,7 @@ class Todo extends Model
      * The attributes that are mass assignable.
      *
      * TODO: add order_number
+     *
      * @var array<int, string>
      */
     protected $fillable = [
@@ -33,6 +34,15 @@ class Todo extends Model
     protected $casts = [
         'completed' => 'boolean',
         'due_date' => 'date',
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'completed' => false,
     ];
 
     /**
