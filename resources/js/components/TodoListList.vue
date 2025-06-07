@@ -20,7 +20,7 @@ const handleEdit = (list: TodoList) => {
 
 <template>
     <div class="space-y-4">
-        <div v-if="lists.length === 0" class="text-center py-12">
+        <div v-if="props.lists.length === 0" class="text-center py-12">
             <div class="mx-auto max-w-sm">
                 <div class="mb-4">
                     <svg
@@ -47,7 +47,7 @@ const handleEdit = (list: TodoList) => {
 
         <div v-else class="grid gap-4">
             <TodoListItem
-                v-for="list in lists"
+                v-for="list in props.lists"
                 :key="list.id"
                 :list="list"
                 @edit="handleEdit"
