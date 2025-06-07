@@ -38,7 +38,7 @@ const handleEdit = (list: TodoList) => {
         </div>
 
         <div v-else class="grid gap-4">
-            <TodoListItem v-for="list in lists" :key="list.id" :list="list" @edit="handleEdit" />
+            <TodoListItem v-for="list in props.lists" :key="list.id" :list="list" @edit="handleEdit" />
         </div>
     </div>
 </template>
