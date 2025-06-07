@@ -20,16 +20,10 @@ const handleEdit = (list: TodoList) => {
 
 <template>
     <div class="space-y-4">
-        <div v-if="props.lists.length === 0" class="text-center py-12">
+        <div v-if="props.lists.length === 0" class="py-12 text-center">
             <div class="mx-auto max-w-sm">
                 <div class="mb-4">
-                    <svg
-                        class="mx-auto h-12 w-12 text-muted-foreground"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                    >
+                    <svg class="text-muted-foreground mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -38,20 +32,13 @@ const handleEdit = (list: TodoList) => {
                         />
                     </svg>
                 </div>
-                <h3 class="text-lg font-medium text-foreground">No lists yet</h3>
-                <p class="mt-1 text-sm text-muted-foreground">
-                    Get started by creating your first list.
-                </p>
+                <h3 class="text-foreground text-lg font-medium">No lists yet</h3>
+                <p class="text-muted-foreground mt-1 text-sm">Get started by creating your first list.</p>
             </div>
         </div>
 
         <div v-else class="grid gap-4">
-            <TodoListItem
-                v-for="list in props.lists"
-                :key="list.id"
-                :list="list"
-                @edit="handleEdit"
-            />
+            <TodoListItem v-for="list in props.lists" :key="list.id" :list="list" @edit="handleEdit" />
         </div>
     </div>
 </template>

@@ -76,8 +76,6 @@ const detectTimezone = () => {
         form.timezone = detectedTimezone;
     }
 };
-
-
 </script>
 
 <template>
@@ -86,36 +84,21 @@ const detectTimezone = () => {
 
         <SettingsLayout>
             <div class="flex flex-col space-y-6">
-                <HeadingSmall 
-                    title="General settings" 
-                    description="Manage your timezone, date formats, and notification preferences" 
-                />
+                <HeadingSmall title="General settings" description="Manage your timezone, date formats, and notification preferences" />
 
                 <form @submit.prevent="submit" class="space-y-6">
                     <!-- Timezone Settings -->
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <Label for="timezone" class="text-base font-medium">Timezone</Label>
-                            <Button 
-                                type="button" 
-                                variant="outline" 
-                                size="sm" 
-                                @click="detectTimezone"
-                                class="text-xs"
-                            >
-                                Auto-detect
-                            </Button>
+                            <Button type="button" variant="outline" size="sm" @click="detectTimezone" class="text-xs"> Auto-detect </Button>
                         </div>
                         <Select v-model="form.timezone">
                             <SelectTrigger>
                                 <SelectValue placeholder="Select timezone" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem 
-                                    v-for="timezone in commonTimezones" 
-                                    :key="timezone.value" 
-                                    :value="timezone.value"
-                                >
+                                <SelectItem v-for="timezone in commonTimezones" :key="timezone.value" :value="timezone.value">
                                     {{ timezone.label }}
                                 </SelectItem>
                             </SelectContent>
@@ -131,11 +114,7 @@ const detectTimezone = () => {
                                 <SelectValue placeholder="Select date format" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem 
-                                    v-for="format in dateFormats" 
-                                    :key="format.value" 
-                                    :value="format.value"
-                                >
+                                <SelectItem v-for="format in dateFormats" :key="format.value" :value="format.value">
                                     {{ format.label }}
                                 </SelectItem>
                             </SelectContent>
@@ -151,11 +130,7 @@ const detectTimezone = () => {
                                 <SelectValue placeholder="Select time format" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem 
-                                    v-for="format in timeFormats" 
-                                    :key="format.value" 
-                                    :value="format.value"
-                                >
+                                <SelectItem v-for="format in timeFormats" :key="format.value" :value="format.value">
                                     {{ format.label }}
                                 </SelectItem>
                             </SelectContent>
@@ -166,27 +141,21 @@ const detectTimezone = () => {
                     <!-- Notification Settings -->
                     <div class="space-y-4">
                         <h3 class="text-base font-medium">Notifications</h3>
-                        
+
                         <div class="flex items-center justify-between">
                             <div class="space-y-0.5">
                                 <Label for="email_notifications" class="text-sm font-medium">Email Notifications</Label>
-                                <p class="text-sm text-muted-foreground">Receive email notifications for important updates</p>
+                                <p class="text-muted-foreground text-sm">Receive email notifications for important updates</p>
                             </div>
-                            <Switch 
-                                id="email_notifications"
-                                v-model:checked="form.email_notifications"
-                            />
+                            <Switch id="email_notifications" v-model:checked="form.email_notifications" />
                         </div>
 
                         <div class="flex items-center justify-between">
                             <div class="space-y-0.5">
                                 <Label for="browser_notifications" class="text-sm font-medium">Browser Notifications</Label>
-                                <p class="text-sm text-muted-foreground">Receive browser notifications for reminders</p>
+                                <p class="text-muted-foreground text-sm">Receive browser notifications for reminders</p>
                             </div>
-                            <Switch 
-                                id="browser_notifications"
-                                v-model:checked="form.browser_notifications"
-                            />
+                            <Switch id="browser_notifications" v-model:checked="form.browser_notifications" />
                         </div>
                     </div>
 
@@ -195,10 +164,8 @@ const detectTimezone = () => {
                         <Button type="submit" :disabled="form.processing">
                             {{ form.processing ? 'Saving...' : 'Save Settings' }}
                         </Button>
-                        
-                        <p v-if="form.recentlySuccessful" class="text-sm text-green-600">
-                            Settings saved successfully.
-                        </p>
+
+                        <p v-if="form.recentlySuccessful" class="text-sm text-green-600">Settings saved successfully.</p>
                     </div>
                 </form>
             </div>

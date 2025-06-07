@@ -1,18 +1,13 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { type Todo } from '@/types';
 import { useForm } from '@inertiajs/vue3';
+import { Calendar, Edit, MoreHorizontal, Trash2 } from 'lucide-vue-next';
 import { computed } from 'vue';
-import { Edit, MoreHorizontal, Trash2, Calendar } from 'lucide-vue-next';
 
 interface Props {
     todo: Todo;
@@ -81,27 +76,16 @@ const handleDelete = () => {
         <CardContent class="p-4">
             <div class="flex items-start gap-3">
                 <!-- Checkbox -->
-                <Checkbox
-                    :model-value="todo.completed"
-                    @update:model-value="toggleCompleted"
-                    class="mt-1"
-                />
+                <Checkbox :model-value="todo.completed" @update:model-value="toggleCompleted" class="mt-1" />
 
                 <!-- Content -->
-                <div class="flex-1 min-w-0">
+                <div class="min-w-0 flex-1">
                     <div class="flex items-start justify-between gap-2">
                         <div class="flex-1">
-                            <h3 
-                                class="font-medium text-sm"
-                                :class="{ 'line-through text-muted-foreground': todo.completed }"
-                            >
+                            <h3 class="text-sm font-medium" :class="{ 'text-muted-foreground line-through': todo.completed }">
                                 {{ todo.title }}
                             </h3>
-                            <p 
-                                v-if="todo.description" 
-                                class="text-sm text-muted-foreground mt-1"
-                                :class="{ 'line-through': todo.completed }"
-                            >
+                            <p v-if="todo.description" class="text-muted-foreground mt-1 text-sm" :class="{ 'line-through': todo.completed }">
                                 {{ todo.description }}
                             </p>
                         </div>
@@ -127,19 +111,17 @@ const handleDelete = () => {
                     </div>
 
                     <!-- Meta information -->
-                    <div class="flex items-center gap-2 mt-2">
+                    <div class="mt-2 flex items-center gap-2">
                         <Badge :class="priorityColors[todo.priority]" variant="secondary">
                             {{ todo.priority }}
                         </Badge>
 
-                        <div v-if="todo.due_date" class="flex items-center gap-1 text-xs text-muted-foreground">
+                        <div v-if="todo.due_date" class="text-muted-foreground flex items-center gap-1 text-xs">
                             <Calendar class="h-3 w-3" />
-                            <span :class="{ 'text-red-600 font-medium': isOverdue }">
+                            <span :class="{ 'font-medium text-red-600': isOverdue }">
                                 {{ formatDate(todo.due_date) }}
                             </span>
-                            <span v-if="isOverdue" class="text-red-600 font-medium">
-                                (Overdue)
-                            </span>
+                            <span v-if="isOverdue" class="font-medium text-red-600"> (Overdue) </span>
                         </div>
                     </div>
                 </div>
