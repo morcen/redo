@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -48,7 +47,7 @@ test('user can update general settings', function () {
 
     $user->refresh();
     $settings = $user->settings;
-    
+
     expect($settings->timezone)->toBe('America/New_York');
     expect($settings->date_format)->toBe('m/d/Y');
     expect($settings->time_format)->toBe('g:i A');
@@ -103,7 +102,7 @@ test('timezone validation works for ajax endpoint', function () {
 
 test('settings are created with defaults when first accessed', function () {
     $user = User::factory()->create();
-    
+
     // Ensure user has no settings initially
     expect($user->settings()->exists())->toBeFalse();
 
@@ -111,11 +110,11 @@ test('settings are created with defaults when first accessed', function () {
     $response = $this->actingAs($user)->get('/settings/general');
 
     $response->assertOk();
-    
+
     // Verify settings were created with defaults
     $user->refresh();
     expect($user->settings()->exists())->toBeTrue();
-    
+
     $settings = $user->settings;
     expect($settings->timezone)->toBe('UTC');
     expect($settings->date_format)->toBe('Y-m-d');
@@ -126,7 +125,7 @@ test('settings are created with defaults when first accessed', function () {
 
 test('existing settings are preserved when updating', function () {
     $user = User::factory()->create();
-    
+
     // Create initial settings
     $user->settings()->create([
         'timezone' => 'America/Chicago',
@@ -146,10 +145,10 @@ test('existing settings are preserved when updating', function () {
     ]);
 
     $response->assertRedirect('/settings/general');
-    
+
     $user->refresh();
     $settings = $user->settings;
-    
+
     expect($settings->timezone)->toBe('Europe/Paris');
     expect($settings->date_format)->toBe('Y-m-d');
     expect($settings->time_format)->toBe('H:i');

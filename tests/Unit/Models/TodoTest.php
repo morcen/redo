@@ -19,7 +19,7 @@ test('todo belongs to todo list', function () {
 });
 
 test('todo has correct fillable attributes', function () {
-    $todo = new Todo();
+    $todo = new Todo;
 
     $expectedFillable = [
         'title',
@@ -51,7 +51,7 @@ test('todo casts attributes correctly', function () {
 test('todo can be created with all attributes', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $todo = $todoList->todos()->create([
         'title' => 'Complete Project',
         'description' => 'Finish the final project for the client',
@@ -71,7 +71,7 @@ test('todo can be created with all attributes', function () {
 test('todo can be created with minimal attributes', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $todo = $todoList->todos()->create([
         'title' => 'Simple Todo',
         'priority' => 'low',
@@ -87,15 +87,15 @@ test('todo can be created with minimal attributes', function () {
 test('todo priority can be low, medium, or high', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $priorities = ['low', 'medium', 'high'];
-    
+
     foreach ($priorities as $priority) {
         $todo = $todoList->todos()->create([
             'title' => "Todo with {$priority} priority",
             'priority' => $priority,
         ]);
-        
+
         expect($todo->priority)->toBe($priority);
     }
 });
@@ -103,7 +103,7 @@ test('todo priority can be low, medium, or high', function () {
 test('todo completed defaults to false', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $todo = $todoList->todos()->create([
         'title' => 'New Todo',
         'priority' => 'medium',
@@ -115,7 +115,7 @@ test('todo completed defaults to false', function () {
 test('todo can be marked as completed', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $todo = $todoList->todos()->create([
         'title' => 'Todo to Complete',
         'priority' => 'medium',
@@ -132,7 +132,7 @@ test('todo can be marked as completed', function () {
 test('todo can have due date', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $dueDate = '2024-12-25';
     $todo = $todoList->todos()->create([
         'title' => 'Christmas Todo',
@@ -147,7 +147,7 @@ test('todo can have due date', function () {
 test('todo can be updated', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $todo = $todoList->todos()->create([
         'title' => 'Original Title',
         'description' => 'Original description',
@@ -172,14 +172,14 @@ test('todo can be updated', function () {
 test('todo can be deleted', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $todo = $todoList->todos()->create([
         'title' => 'Todo to Delete',
         'priority' => 'medium',
     ]);
 
     $todoId = $todo->id;
-    
+
     $todo->delete();
 
     expect(Todo::find($todoId))->toBeNull();
@@ -188,14 +188,14 @@ test('todo can be deleted', function () {
 test('todo is deleted when todo list is deleted', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     $todo = $todoList->todos()->create([
         'title' => 'Todo in List',
         'priority' => 'medium',
     ]);
 
     $todoId = $todo->id;
-    
+
     // Delete the todo list
     $todoList->delete();
 

@@ -13,7 +13,7 @@ class CreateUserSettings
     public function handle(Registered $event): void
     {
         $user = $event->user;
-        
+
         // Create default settings for the newly registered user
         $user->settings()->create(Setting::getDefaults());
     }

@@ -18,8 +18,8 @@ test('setting belongs to user', function () {
 });
 
 test('setting has correct fillable attributes', function () {
-    $setting = new Setting();
-    
+    $setting = new Setting;
+
     $expectedFillable = [
         'user_id',
         'timezone',
@@ -40,7 +40,7 @@ test('setting casts boolean attributes correctly', function () {
 
     expect($setting->email_notifications)->toBeTrue();
     expect($setting->browser_notifications)->toBeFalse();
-    
+
     // Test that they are actually boolean types
     expect(is_bool($setting->email_notifications))->toBeTrue();
     expect(is_bool($setting->browser_notifications))->toBeTrue();
@@ -94,12 +94,12 @@ test('setting can be updated with custom values', function () {
 test('setting is deleted when user is deleted', function () {
     $user = User::factory()->create();
     $setting = $user->settings()->create(Setting::getDefaults());
-    
+
     $settingId = $setting->id;
-    
+
     // Delete the user
     $user->delete();
-    
+
     // Verify setting is also deleted due to cascade
     expect(Setting::find($settingId))->toBeNull();
 });

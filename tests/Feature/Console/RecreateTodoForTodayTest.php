@@ -2,7 +2,6 @@
 
 use App\Models\Setting;
 use App\Models\Todo;
-use App\Models\TodoList;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -50,7 +49,7 @@ test('command recreates todos from yesterday for users in new day', function () 
             'completed' => false,
             'created_at' => $yesterday,
             'updated_at' => $yesterday,
-        ]
+        ],
     ]);
 
     // Mock the current time to be early in the new day (within processing window)
@@ -65,7 +64,7 @@ test('command recreates todos from yesterday for users in new day', function () 
     $todayTodos = $todoList->todos()->whereDate('created_at', Carbon::now($settings->timezone)->format('Y-m-d'))->get();
 
     expect($todayTodos)->toHaveCount(2);
-    
+
     // Verify the todos have correct attributes and completion is reset
     $recreatedTodo1 = $todayTodos->where('title', 'Morning Exercise')->first();
     expect($recreatedTodo1)->not->toBeNull();

@@ -124,7 +124,7 @@ test('todo list validation works for updates', function () {
 test('user can view todos for specific list', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Work Tasks']);
-    
+
     $todo1 = $todoList->todos()->create(['title' => 'Task 1', 'priority' => 'high']);
     $todo2 = $todoList->todos()->create(['title' => 'Task 2', 'priority' => 'medium']);
 
@@ -154,7 +154,7 @@ test('user cannot view todos for other users lists', function () {
 test('todo lists index includes completion statistics', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     // Create some todos with different completion status
     $todoList->todos()->create(['title' => 'Completed Todo', 'priority' => 'high', 'completed' => true]);
     $todoList->todos()->create(['title' => 'Pending Todo 1', 'priority' => 'medium', 'completed' => false]);
@@ -173,7 +173,7 @@ test('todo lists index includes completion statistics', function () {
 test('todo list todos page includes completion statistics', function () {
     $user = User::factory()->create();
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
-    
+
     // Create todos with different completion status
     $todoList->todos()->create(['title' => 'Completed Todo', 'priority' => 'high', 'completed' => true]);
     $todoList->todos()->create(['title' => 'Pending Todo', 'priority' => 'medium', 'completed' => false]);

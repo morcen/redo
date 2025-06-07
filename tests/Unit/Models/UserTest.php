@@ -29,7 +29,7 @@ test('user has many todos through todo lists', function () {
     $todo3 = $todoList1->todos()->create(['title' => 'Another Work Todo', 'priority' => 'low']);
 
     $userTodos = $user->todos;
-    
+
     expect($userTodos)->toHaveCount(3);
     expect($userTodos->first())->toBeInstanceOf(Todo::class);
     expect($userTodos->pluck('title')->toArray())->toContain('Work Todo', 'Personal Todo', 'Another Work Todo');
@@ -60,8 +60,8 @@ test('user factory can create unverified users', function () {
 });
 
 test('user has correct fillable attributes', function () {
-    $user = new User();
-    
+    $user = new User;
+
     $expectedFillable = [
         'name',
         'email',
@@ -72,8 +72,8 @@ test('user has correct fillable attributes', function () {
 });
 
 test('user has correct hidden attributes', function () {
-    $user = new User();
-    
+    $user = new User;
+
     $expectedHidden = [
         'password',
         'remember_token',
@@ -91,13 +91,13 @@ test('user casts attributes correctly', function () {
 
 test('user can have multiple todo lists with different names', function () {
     $user = User::factory()->create();
-    
+
     $listNames = ['Work', 'Personal', 'Shopping', 'Health', 'Learning'];
-    
+
     foreach ($listNames as $name) {
         $user->todoLists()->create(['name' => $name]);
     }
-    
+
     expect($user->todoLists)->toHaveCount(5);
     expect($user->todoLists->pluck('name')->toArray())->toBe($listNames);
 });
@@ -106,14 +106,14 @@ test('user todos relationship includes todos from all lists', function () {
     $user = User::factory()->create();
     $workList = $user->todoLists()->create(['name' => 'Work']);
     $personalList = $user->todoLists()->create(['name' => 'Personal']);
-    
+
     // Create todos in different lists
     $workTodo1 = $workList->todos()->create(['title' => 'Work Task 1', 'priority' => 'high']);
     $workTodo2 = $workList->todos()->create(['title' => 'Work Task 2', 'priority' => 'medium']);
     $personalTodo = $personalList->todos()->create(['title' => 'Personal Task', 'priority' => 'low']);
-    
+
     $allUserTodos = $user->todos;
-    
+
     expect($allUserTodos)->toHaveCount(3);
     expect($allUserTodos->contains($workTodo1))->toBeTrue();
     expect($allUserTodos->contains($workTodo2))->toBeTrue();
@@ -125,15 +125,15 @@ test('deleting user cascades to todo lists and todos', function () {
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
     $todo = $todoList->todos()->create(['title' => 'Test Todo', 'priority' => 'medium']);
     $settings = $user->settings()->create(Setting::getDefaults());
-    
+
     $userId = $user->id;
     $todoListId = $todoList->id;
     $todoId = $todo->id;
     $settingsId = $settings->id;
-    
+
     // Delete the user
     $user->delete();
-    
+
     // Verify all related records are deleted
     expect(User::find($userId))->toBeNull();
     expect(TodoList::find($todoListId))->toBeNull();
@@ -143,9 +143,9 @@ test('deleting user cascades to todo lists and todos', function () {
 
 test('user email must be unique', function () {
     $email = 'test@example.com';
-    
+
     User::factory()->create(['email' => $email]);
-    
+
     expect(fn () => User::factory()->create(['email' => $email]))
         ->toThrow(Exception::class);
 });

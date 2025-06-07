@@ -11,20 +11,20 @@ uses(TestCase::class, RefreshDatabase::class);
 
 test('creates default settings when user is registered', function () {
     $user = User::factory()->create();
-    
+
     // Ensure no settings exist initially
     expect($user->settings()->exists())->toBeFalse();
-    
+
     // Create the event and listener
     $event = new Registered($user);
-    $listener = new CreateUserSettings();
-    
+    $listener = new CreateUserSettings;
+
     // Handle the event
     $listener->handle($event);
-    
+
     // Verify settings were created
     expect($user->settings()->exists())->toBeTrue();
-    
+
     $settings = $user->settings()->first();
     expect($settings)->toBeInstanceOf(Setting::class);
     expect($settings->timezone)->toBe('UTC');
@@ -43,16 +43,16 @@ test('listener is called when user registers through controller', function () {
         'password' => 'password123',
         'password_confirmation' => 'password123',
     ]);
-    
+
     $response->assertRedirect('/dashboard');
-    
+
     // Verify user was created
     $user = User::where('email', 'test@example.com')->first();
     expect($user)->not->toBeNull();
-    
+
     // Verify settings were automatically created
     expect($user->settings()->exists())->toBeTrue();
-    
+
     $settings = $user->settings()->first();
     expect($settings->timezone)->toBe('UTC');
     expect($settings->date_format)->toBe('Y-m-d');
