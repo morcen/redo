@@ -110,11 +110,11 @@ class RecreateTodoForToday extends Command
             }
 
             // Get todos from yesterday for this user, only from lists marked for daily refresh
-            $yesterdayTodos = Todo::where('refresh_daily', true)
-                ->with('todoList')
+            $yesterdayTodos = Todo::select('todos.*')
                 ->join('todo_lists', 'todo_lists.id', '=', 'todos.todo_list_id')
+                ->where('todo_lists.refresh_daily', true)
                 ->whereDate('todos.created_at', $yesterdayInUserTz->format('Y-m-d'))
-                ->where('user_id', $user->id)
+                ->where('todo_lists.user_id', $user->id)
                 ->get();
 
             if ($yesterdayTodos->isEmpty()) {

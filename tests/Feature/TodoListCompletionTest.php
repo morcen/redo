@@ -84,8 +84,10 @@ test('completion percentage updates when todo is marked complete', function () {
         'todo_list_id' => $todo->todo_list_id,
     ]);
 
-    // Should now be 100% complete
-    expect($todoList->fresh()->completion_percentage)->toBe(100.0);
+    // Should now be 100% complete - need to refresh the relationship
+    $todoList = $todoList->fresh();
+    $todoList->load('todos'); // Refresh the relationship
+    expect($todoList->completion_percentage)->toBe(100.0);
 });
 
 test('todo list todos page includes completion statistics', function () {

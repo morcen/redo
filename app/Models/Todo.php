@@ -37,6 +37,15 @@ class Todo extends Model
     ];
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'completed' => false,
+    ];
+
+    /**
      * Get the todo list that owns the todo.
      */
     public function todoList(): BelongsTo
