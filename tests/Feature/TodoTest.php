@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Todo;
-use App\Models\TodoList;
 use App\Models\User;
 
 test('user can view todos page', function () {

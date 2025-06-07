@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DatePicker } from '@/components/ui/date-picker';
 import { type TodoFilters as TodoFiltersType, type TodoList } from '@/types';
 import { router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
 import { Search, X } from 'lucide-vue-next';
+import { ref, watch } from 'vue';
 
 interface Props {
     filters: TodoFiltersType;
@@ -75,20 +75,32 @@ const clearFilters = () => {
     const routeParams = route().params;
 
     if (currentRoute === 'lists.todos') {
-        router.get(route('lists.todos', routeParams.list), {}, {
-            preserveState: true,
-            replace: true,
-        });
+        router.get(
+            route('lists.todos', routeParams.list),
+            {},
+            {
+                preserveState: true,
+                replace: true,
+            },
+        );
     } else if (currentRoute === 'todo-lists.index') {
-        router.get(route('todo-lists.index'), {}, {
-            preserveState: true,
-            replace: true,
-        });
+        router.get(
+            route('todo-lists.index'),
+            {},
+            {
+                preserveState: true,
+                replace: true,
+            },
+        );
     } else {
-        router.get(route('todos.index'), {}, {
-            preserveState: true,
-            replace: true,
-        });
+        router.get(
+            route('todos.index'),
+            {},
+            {
+                preserveState: true,
+                replace: true,
+            },
+        );
     }
 };
 
@@ -111,15 +123,11 @@ watch([completed, priority, selectedDate], updateFilters);
 </script>
 
 <template>
-    <div class="flex flex-col sm:flex-row gap-4 p-4 bg-muted/50 rounded-lg">
+    <div class="bg-muted/50 flex flex-col gap-4 rounded-lg p-4 sm:flex-row">
         <!-- Search -->
         <div v-if="!showDateOnly" class="relative flex-1">
-            <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-                v-model="search"
-                placeholder="Search todos..."
-                class="pl-10"
-            />
+            <Search class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
+            <Input v-model="search" placeholder="Search todos..." class="pl-10" />
         </div>
 
         <!-- Status Filter -->
@@ -153,23 +161,12 @@ watch([completed, priority, selectedDate], updateFilters);
 
         <!-- Date Filter -->
         <div class="w-full sm:w-48">
-            <DatePicker
-                v-model="selectedDate"
-                :available-dates="availableDates || []"
-                placeholder="Select Date"
-                class="w-full"
-            />
+            <DatePicker v-model="selectedDate" :available-dates="availableDates || []" placeholder="Select Date" class="w-full" />
         </div>
 
         <!-- Clear Filters -->
-        <Button
-            v-if="hasActiveFilters()"
-            variant="outline"
-            size="sm"
-            @click="clearFilters"
-            class="w-full sm:w-auto"
-        >
-            <X class="h-4 w-4 mr-2" />
+        <Button v-if="hasActiveFilters()" variant="outline" size="sm" @click="clearFilters" class="w-full sm:w-auto">
+            <X class="mr-2 h-4 w-4" />
             Clear
         </Button>
     </div>

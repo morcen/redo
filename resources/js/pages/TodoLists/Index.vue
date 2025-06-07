@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
+import TodoFilters from '@/components/TodoFilters.vue';
 import TodoListForm from '@/components/TodoListForm.vue';
 import TodoListList from '@/components/TodoListList.vue';
-import TodoFilters from '@/components/TodoFilters.vue';
-import { type BreadcrumbItem, type TodoList, type TodoFilters as TodoFiltersType } from '@/types';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem, type TodoFilters as TodoFiltersType, type TodoList } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -46,13 +46,11 @@ const handleCloseForm = () => {
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold tracking-tight">Todo Lists</h1>
-                    <p class="text-muted-foreground">
-                        Organize your todos with custom lists
-                    </p>
+                    <p class="text-muted-foreground">Organize your todos with custom lists</p>
                 </div>
                 <button
                     @click="showForm = true"
-                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+                    class="ring-offset-background focus-visible:ring-ring bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
                 >
                     Add List
                 </button>
@@ -68,19 +66,11 @@ const handleCloseForm = () => {
 
             <!-- List List -->
             <div class="flex-1">
-                <TodoListList
-                    :lists="props.lists"
-                    @edit="handleEdit"
-                />
+                <TodoListList :lists="props.lists" @edit="handleEdit" />
             </div>
 
             <!-- List Form Modal -->
-            <TodoListForm
-                v-if="showForm"
-                :list="editingList"
-                :open="showForm"
-                @close="handleCloseForm"
-            />
+            <TodoListForm v-if="showForm" :list="editingList" :open="showForm" @close="handleCloseForm" />
         </div>
     </AppLayout>
 </template>

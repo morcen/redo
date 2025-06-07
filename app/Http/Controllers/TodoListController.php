@@ -111,7 +111,7 @@ class TodoListController extends Controller
 
         // Create a new todo list with the same attributes
         $duplicatedList = Auth::user()->todoLists()->create([
-            'name' => $todoList->name . ' (Copy)',
+            'name' => $todoList->name.' (Copy)',
             'description' => $todoList->description,
             'refresh_daily' => $todoList->refresh_daily,
         ]);
@@ -173,7 +173,7 @@ class TodoListController extends Controller
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 

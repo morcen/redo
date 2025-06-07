@@ -1,0 +1,112 @@
+# Production override for docker-compose.yml
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+  # Laravel Application (Production)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: redo-app-prod
+    restart: always
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=redo
+      - DB_USERNAME=redo_user
+      - DB_PASSWORD=${DB_PASSWORD:-redo_password}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CACHE_STORE=redis
+      - SESSION_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - LOG_CHANNEL=stderr
+    volumes:
+      - storage_data:/var/www/html/storage
+    ports:
+      - "80:80"
+
+  # Remove nginx service (handled by app container in production)
+  nginx:
+    deploy:
+      replicas: 0
+
+  # Remove vite service (not needed in production)
+  vite:
+    deploy:
+      replicas: 0
+
+  # MySQL Database (Production)
+  mysql:
+    restart: always
+    environment:
+      MYSQL_DATABASE: redo
+      MYSQL_USER: redo_user
+      MYSQL_PASSWORD: ${DB_PASSWORD:-redo_password}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_password}
+    volumes:
+      - mysql_prod_data:/var/lib/mysql
+    ports: []  # Don't expose MySQL port in production
+
+  # Redis Cache (Production)
+  redis:
+    restart: always
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
+    ports: []  # Don't expose Redis port in production
+
+  # Queue Worker (Production)
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: redo-queue-prod
+    restart: always
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=redo
+      - DB_USERNAME=redo_user
+      - DB_PASSWORD=${DB_PASSWORD:-redo_password}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QUEUE_CONNECTION=redis
+      - LOG_CHANNEL=stderr
+    volumes:
+      - storage_data:/var/www/html/storage
+
+  # Scheduler (Production)
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: redo-scheduler-prod
+    restart: always
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=redo
+      - DB_USERNAME=redo_user
+      - DB_PASSWORD=${DB_PASSWORD:-redo_password}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - LOG_CHANNEL=stderr
+    volumes:
+      - storage_data:/var/www/html/storage
+
+volumes:
+  mysql_prod_data:
+    driver: local
+  storage_data:
+    driver: local

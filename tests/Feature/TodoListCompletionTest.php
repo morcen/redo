@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Models\TodoList;
 
 test('todo list completion percentage is calculated correctly', function () {
     $user = User::factory()->create();
@@ -49,11 +48,11 @@ test('todo list index includes completion statistics', function () {
     $response = $this->actingAs($user)->get('/todo-lists');
 
     $response->assertStatus(200);
-    
+
     // Check that the response includes the completion data
     $lists = $response->viewData('page')['props']['lists'];
     $testList = collect($lists)->firstWhere('name', 'Test List');
-    
+
     expect($testList['filtered_total_todos'])->toBe(2);
     expect($testList['filtered_completed_todos'])->toBe(1);
     expect($testList['filtered_completion_percentage'])->toBe(50.0);
@@ -85,8 +84,10 @@ test('completion percentage updates when todo is marked complete', function () {
         'todo_list_id' => $todo->todo_list_id,
     ]);
 
-    // Should now be 100% complete
-    expect($todoList->fresh()->completion_percentage)->toBe(100.0);
+    // Should now be 100% complete - need to refresh the relationship
+    $todoList = $todoList->fresh();
+    $todoList->load('todos'); // Refresh the relationship
+    expect($todoList->completion_percentage)->toBe(100.0);
 });
 
 test('todo list todos page includes completion statistics', function () {

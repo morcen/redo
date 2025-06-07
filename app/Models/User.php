@@ -72,17 +72,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(Setting::class);
     }
-
-    /**
-     * Get the user's settings or create default ones.
-     */
-    public function getSettingsAttribute()
-    {
-        if (!$this->settings) {
-            $this->settings()->create(Setting::getDefaults());
-            $this->load('settings');
-        }
-
-        return $this->settings;
-    }
 }

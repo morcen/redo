@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
-use App\Models\Todo;
-use App\Models\TodoList;
 use App\Models\Setting;
+use App\Models\Todo;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -70,28 +69,22 @@ class RecreateTodoForToday extends Command
             }
         }
 
-        $this->info("Process completed!");
+        $this->info('Process completed!');
         $this->info("Users processed: {$processedUsers}");
         if ($isDebug) {
             $this->info("Users skipped: {$skippedUsers}");
         }
-        $this->info("Total todos " . ($isDryRun ? 'would be created' : 'created') . ": {$totalTodosCreated}");
+        $this->info('Total todos '.($isDryRun ? 'would be created' : 'created').": {$totalTodosCreated}");
     }
 
     /**
      * Process todos for a single user
-     *
-     * @param User $user
-     * @param bool $isDryRun
-     * @param bool $isForced
-     * @param bool $isDebug
-     * @return array
      */
     private function processUserTodos(User $user, bool $isDryRun, bool $isForced, bool $isDebug): array
     {
         // Get user's timezone settings
         $settings = $user->settings()->first();
-        if (!$settings) {
+        if (! $settings) {
             // Create default settings if they don't exist
             $settings = $user->settings()->create(Setting::getDefaults());
         }
@@ -108,27 +101,27 @@ class RecreateTodoForToday extends Command
             $currentHour = $nowInUserTz->hour;
 
             // Only process if it's early in the day (first hour) to avoid multiple executions
-            if (!$isForced && $currentHour > 1) {
+            if (! $isForced && $currentHour > 1) {
                 return [
                     'processed' => false,
                     'todos_created' => 0,
-                    'reason' => "Not in processing window (current hour: {$currentHour} in {$userTimezone})"
+                    'reason' => "Not in processing window (current hour: {$currentHour} in {$userTimezone})",
                 ];
             }
 
             // Get todos from yesterday for this user, only from lists marked for daily refresh
-            $yesterdayTodos = Todo::where('refresh_daily', true)           
-                ->with('todoList')
+            $yesterdayTodos = Todo::select('todos.*')
                 ->join('todo_lists', 'todo_lists.id', '=', 'todos.todo_list_id')
+                ->where('todo_lists.refresh_daily', true)
                 ->whereDate('todos.created_at', $yesterdayInUserTz->format('Y-m-d'))
-                ->where('user_id', $user->id)
+                ->where('todo_lists.user_id', $user->id)
                 ->get();
 
             if ($yesterdayTodos->isEmpty()) {
                 return [
                     'processed' => false,
                     'todos_created' => 0,
-                    'reason' => "No todos from yesterday ({$yesterdayInUserTz->format('Y-m-d')}) in lists marked for daily refresh"
+                    'reason' => "No todos from yesterday ({$yesterdayInUserTz->format('Y-m-d')}) in lists marked for daily refresh",
                 ];
             }
 
@@ -138,7 +131,7 @@ class RecreateTodoForToday extends Command
 
             $todosCreated = 0;
 
-            if (!$isDryRun) {
+            if (! $isDryRun) {
                 // Create new todos for today based on yesterday's ones
                 DB::transaction(function () use ($yesterdayTodos, &$todosCreated) {
                     foreach ($yesterdayTodos as $todo) {
@@ -160,15 +153,16 @@ class RecreateTodoForToday extends Command
             return [
                 'processed' => true,
                 'todos_created' => $todosCreated,
-                'reason' => null
+                'reason' => null,
             ];
 
         } catch (\Exception $e) {
-            $this->error("Error processing user {$user->email}: " . $e->getMessage());
+            $this->error("Error processing user {$user->email}: ".$e->getMessage());
+
             return [
                 'processed' => false,
                 'todos_created' => 0,
-                'reason' => "Error: " . $e->getMessage()
+                'reason' => 'Error: '.$e->getMessage(),
             ];
         }
     }

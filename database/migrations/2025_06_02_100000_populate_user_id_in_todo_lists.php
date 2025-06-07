@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -14,9 +14,9 @@ return new class extends Migration
     {
         // For existing todo lists, assign them to the user who has the most todos in that list
         // If no todos exist for a list, assign to the first user (or delete the list)
-        
+
         $todoLists = DB::table('todo_lists')->get();
-        
+
         foreach ($todoLists as $todoList) {
             // Find the user who has the most todos in this list
             $userWithMostTodos = DB::table('todos')
@@ -25,7 +25,7 @@ return new class extends Migration
                 ->groupBy('user_id')
                 ->orderBy('todo_count', 'desc')
                 ->first();
-            
+
             if ($userWithMostTodos) {
                 // Assign the list to the user with the most todos
                 DB::table('todo_lists')
