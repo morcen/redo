@@ -62,13 +62,7 @@ class Todo extends Model
         return $this->completed_at !== null;
     }
 
-    /**
-     * Get the completion timestamp.
-     */
-    public function getCompletedAtAttribute(): ?\Carbon\Carbon
-    {
-        return $this->completed;
-    }
+
 
     /**
      * Mark the todo as completed with current timestamp.
