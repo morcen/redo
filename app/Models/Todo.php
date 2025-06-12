@@ -32,7 +32,7 @@ class Todo extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'completed' => 'boolean',
+        'completed' => 'datetime',
         'due_date' => 'date',
     ];
 
@@ -42,7 +42,7 @@ class Todo extends Model
      * @var array<string, mixed>
      */
     protected $attributes = [
-        'completed' => false,
+        'completed' => null,
     ];
 
     /**
@@ -51,6 +51,39 @@ class Todo extends Model
     public function todoList(): BelongsTo
     {
         return $this->belongsTo(TodoList::class);
+    }
+
+    /**
+     * Check if the todo is completed.
+     * Accessor for backward compatibility.
+     */
+    public function getIsCompletedAttribute(): bool
+    {
+        return $this->completed !== null;
+    }
+
+    /**
+     * Get the completion timestamp.
+     */
+    public function getCompletedAtAttribute(): ?\Carbon\Carbon
+    {
+        return $this->completed;
+    }
+
+    /**
+     * Mark the todo as completed with current timestamp.
+     */
+    public function markAsCompleted(): void
+    {
+        $this->update(['completed' => now()]);
+    }
+
+    /**
+     * Mark the todo as not completed.
+     */
+    public function markAsIncomplete(): void
+    {
+        $this->update(['completed' => null]);
     }
 
     /**
