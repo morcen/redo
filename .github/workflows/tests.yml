@@ -70,12 +70,27 @@ jobs:
       - name: Build frontend assets
         run: npm run build
 
-      - name: Run tests
-        run: php artisan test --coverage --min=80
+      - name: Run tests with coverage
+        run: php artisan test --coverage-clover=coverage.xml --coverage-html=coverage-html --coverage-text=coverage.txt --min=80
 
       - name: Upload coverage reports to Codecov
         if: matrix.php-version == '8.4'
         uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
-          fail_ci_if_error: false
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          verbose: true
+
+      - name: Upload coverage artifacts
+        if: matrix.php-version == '8.4'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            coverage.xml
+            coverage.txt
+            coverage-html/
+          retention-days: 30

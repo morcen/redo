@@ -66,6 +66,15 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
+        ],
+        "test:coverage": [
+            "@php artisan config:clear --ansi",
+            "@php artisan test --coverage-clover=coverage.xml --coverage-html=coverage-html --coverage-text=coverage.txt"
+        ],
+        "test:coverage-report": [
+            "@php artisan config:clear --ansi",
+            "@php artisan test --coverage-clover=coverage.xml --coverage-html=coverage-html --coverage-text=coverage.txt",
+            "@php -r \"echo file_get_contents('coverage.txt');\""
         ]
     },
     "extra": {
