@@ -26,7 +26,7 @@ class TodoSeeder extends Seeder
                 'description' => 'Finish building the todo application with all features',
                 'priority' => 'high',
                 'due_date' => now()->addDays(3),
-                'completed' => false,
+                'completed_at' => null,
             ]);
 
             $todoList->todos()->create([
@@ -34,7 +34,7 @@ class TodoSeeder extends Seeder
                 'description' => 'Review the todo application code for best practices',
                 'priority' => 'medium',
                 'due_date' => now()->addDays(1),
-                'completed' => false,
+                'completed_at' => null,
             ]);
 
             $todoList->todos()->create([
@@ -42,14 +42,14 @@ class TodoSeeder extends Seeder
                 'description' => 'Document the todo application features and usage',
                 'priority' => 'low',
                 'due_date' => now()->addWeek(),
-                'completed' => true,
+                'completed_at' => now()->subDays(2),
             ]);
 
             $todoList->todos()->create([
                 'title' => 'Setup testing',
                 'description' => 'Add unit and feature tests for the todo application',
                 'priority' => 'medium',
-                'completed' => false,
+                'completed_at' => null,
             ]);
 
             // Create a permanent list that doesn't refresh daily
@@ -64,14 +64,14 @@ class TodoSeeder extends Seeder
                 'description' => 'Pick up a new language like Rust or Go',
                 'priority' => 'low',
                 'due_date' => now()->addMonths(3),
-                'completed' => false,
+                'completed_at' => null,
             ]);
 
             $permanentList->todos()->create([
                 'title' => 'Read 12 books this year',
                 'description' => 'Personal development through reading',
                 'priority' => 'medium',
-                'completed' => false,
+                'completed_at' => null,
             ]);
 
             // Create a fully completed list
@@ -85,21 +85,21 @@ class TodoSeeder extends Seeder
                 'title' => 'Design mockups',
                 'description' => 'Create UI/UX mockups for the project',
                 'priority' => 'high',
-                'completed' => true,
+                'completed_at' => now()->subWeeks(3),
             ]);
 
             $completedList->todos()->create([
                 'title' => 'Implement backend',
                 'description' => 'Build the API and database structure',
                 'priority' => 'high',
-                'completed' => true,
+                'completed_at' => now()->subWeeks(2),
             ]);
 
             $completedList->todos()->create([
                 'title' => 'Build frontend',
                 'description' => 'Create the user interface',
                 'priority' => 'medium',
-                'completed' => true,
+                'completed_at' => now()->subWeek(),
             ]);
 
             // Create a list with mixed completion (75% complete)
@@ -113,28 +113,28 @@ class TodoSeeder extends Seeder
                 'title' => 'Research competitors',
                 'description' => 'Analyze competitor websites',
                 'priority' => 'medium',
-                'completed' => true,
+                'completed_at' => now()->subDays(5),
             ]);
 
             $mixedList->todos()->create([
                 'title' => 'Create wireframes',
                 'description' => 'Design the website structure',
                 'priority' => 'high',
-                'completed' => true,
+                'completed_at' => now()->subDays(3),
             ]);
 
             $mixedList->todos()->create([
                 'title' => 'Choose color scheme',
                 'description' => 'Select colors for the new design',
                 'priority' => 'medium',
-                'completed' => true,
+                'completed_at' => now()->subDay(),
             ]);
 
             $mixedList->todos()->create([
                 'title' => 'Implement responsive design',
                 'description' => 'Make the website mobile-friendly',
                 'priority' => 'high',
-                'completed' => false,
+                'completed_at' => null,
             ]);
 
             // Create an empty list to show 0% completion
