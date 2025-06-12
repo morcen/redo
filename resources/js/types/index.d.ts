@@ -54,11 +54,13 @@ export interface Todo {
     todo_list_id: number;
     title: string;
     description?: string;
-    completed: boolean;
+    completed_at: string | null; // timestamp or null
     priority: 'low' | 'medium' | 'high';
     due_date?: string;
     created_at: string;
     updated_at: string;
+    // Computed properties for backward compatibility
+    is_completed?: boolean;
 }
 
 export interface TodoList {
