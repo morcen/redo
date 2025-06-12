@@ -141,7 +141,7 @@ class RecreateTodoForToday extends Command
                             'description' => $todo->description,
                             'priority' => $todo->priority,
                             'due_date' => $todo->due_date,
-                            'completed' => false,
+                            'completed_at' => null,
                         ]);
                         $todosCreated++;
                     }
