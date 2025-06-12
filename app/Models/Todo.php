@@ -20,7 +20,7 @@ class Todo extends Model
     protected $fillable = [
         'title',
         'description',
-        'completed',
+        'completed_at',
         'priority',
         'due_date',
         'todo_list_id',
@@ -32,7 +32,7 @@ class Todo extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'completed' => 'datetime',
+        'completed_at' => 'datetime',
         'due_date' => 'date',
     ];
 
@@ -42,7 +42,7 @@ class Todo extends Model
      * @var array<string, mixed>
      */
     protected $attributes = [
-        'completed' => null,
+        'completed_at' => null,
     ];
 
     /**
@@ -59,7 +59,7 @@ class Todo extends Model
      */
     public function getIsCompletedAttribute(): bool
     {
-        return $this->completed !== null;
+        return $this->completed_at !== null;
     }
 
     /**
@@ -75,7 +75,7 @@ class Todo extends Model
      */
     public function markAsCompleted(): void
     {
-        $this->update(['completed' => now()]);
+        $this->update(['completed_at' => now()]);
     }
 
     /**
@@ -83,7 +83,7 @@ class Todo extends Model
      */
     public function markAsIncomplete(): void
     {
-        $this->update(['completed' => null]);
+        $this->update(['completed_at' => null]);
     }
 
     /**
