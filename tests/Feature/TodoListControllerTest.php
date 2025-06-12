@@ -156,9 +156,9 @@ test('todo lists index includes completion statistics', function () {
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
 
     // Create some todos with different completion status
-    $todoList->todos()->create(['title' => 'Completed Todo', 'priority' => 'high', 'completed' => true]);
-    $todoList->todos()->create(['title' => 'Pending Todo 1', 'priority' => 'medium', 'completed' => false]);
-    $todoList->todos()->create(['title' => 'Pending Todo 2', 'priority' => 'low', 'completed' => false]);
+    $todoList->todos()->create(['title' => 'Completed Todo', 'priority' => 'high', 'completed_at' => now()]);
+    $todoList->todos()->create(['title' => 'Pending Todo 1', 'priority' => 'medium', 'completed_at' => null]);
+    $todoList->todos()->create(['title' => 'Pending Todo 2', 'priority' => 'low', 'completed_at' => null]);
 
     $response = $this->actingAs($user)->get('/todo-lists');
 
@@ -175,8 +175,8 @@ test('todo list todos page includes completion statistics', function () {
     $todoList = $user->todoLists()->create(['name' => 'Test List']);
 
     // Create todos with different completion status
-    $todoList->todos()->create(['title' => 'Completed Todo', 'priority' => 'high', 'completed' => true]);
-    $todoList->todos()->create(['title' => 'Pending Todo', 'priority' => 'medium', 'completed' => false]);
+    $todoList->todos()->create(['title' => 'Completed Todo', 'priority' => 'high', 'completed_at' => now()]);
+    $todoList->todos()->create(['title' => 'Pending Todo', 'priority' => 'medium', 'completed_at' => null]);
 
     $response = $this->actingAs($user)->get("/todo-lists/{$todoList->id}/todos");
 
@@ -205,8 +205,8 @@ test('todo list duplicate functionality works correctly', function () {
     ]);
 
     // Add todos to the original list
-    $originalList->todos()->create(['title' => 'Todo 1', 'priority' => 'high', 'completed' => true]);
-    $originalList->todos()->create(['title' => 'Todo 2', 'priority' => 'medium', 'completed' => false]);
+    $originalList->todos()->create(['title' => 'Todo 1', 'priority' => 'high', 'completed_at' => now()]);
+    $originalList->todos()->create(['title' => 'Todo 2', 'priority' => 'medium', 'completed_at' => null]);
 
     $response = $this->actingAs($user)->post("/todo-lists/{$originalList->id}/duplicate");
 
@@ -223,8 +223,8 @@ test('todo list duplicate functionality works correctly', function () {
     // Verify todos were duplicated with completion reset
     expect($duplicatedList->todos)->toHaveCount(2);
     $duplicatedTodos = $duplicatedList->todos;
-    expect($duplicatedTodos->where('title', 'Todo 1')->first()->completed)->toBeFalse();
-    expect($duplicatedTodos->where('title', 'Todo 2')->first()->completed)->toBeFalse();
+    expect($duplicatedTodos->where('title', 'Todo 1')->first()->completed)->toBeNull();
+    expect($duplicatedTodos->where('title', 'Todo 2')->first()->completed)->toBeNull();
 });
 
 test('user cannot duplicate other users todo lists', function () {

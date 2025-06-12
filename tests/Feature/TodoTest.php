@@ -42,7 +42,7 @@ test('user can update todo', function () {
     $todo = $todoList->todos()->create([
         'title' => 'Original Todo',
         'priority' => 'low',
-        'completed' => false,
+        'completed' => null,
     ]);
 
     $updateData = [
@@ -59,7 +59,7 @@ test('user can update todo', function () {
     $response->assertRedirect();
     $todo->refresh();
     expect($todo->title)->toBe('Updated Todo');
-    expect($todo->completed)->toBeTrue();
+    expect($todo->completed_at)->not->toBeNull();
 });
 
 test('user can delete todo', function () {
@@ -166,7 +166,7 @@ test('user can toggle todo completion status', function () {
     $todo = $todoList->todos()->create([
         'title' => 'Test Todo',
         'priority' => 'medium',
-        'completed' => false,
+        'completed_at' => null,
     ]);
 
     // Toggle from false to true
@@ -181,7 +181,7 @@ test('user can toggle todo completion status', function () {
 
     $response->assertRedirect();
     $todo->refresh();
-    expect($todo->completed)->toBeTrue();
+    expect($todo->completed_at)->not->toBeNull();
 
     // Toggle from true to false
     $response = $this->actingAs($user)->put("/todos/{$todo->id}", [
@@ -195,5 +195,5 @@ test('user can toggle todo completion status', function () {
 
     $response->assertRedirect();
     $todo->refresh();
-    expect($todo->completed)->toBeFalse();
+    expect($todo->completed_at)->toBeNull();
 });

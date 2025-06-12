@@ -20,7 +20,7 @@ test('todo lists index shows date-filtered completion percentages', function () 
         'title' => 'Today Todo 1',
         'description' => 'Test todo for today',
         'priority' => 'medium',
-        'completed' => true,
+        'completed_at' => now(),
     ]);
     $todo1->created_at = $today;
     $todo1->updated_at = $today;
@@ -30,7 +30,7 @@ test('todo lists index shows date-filtered completion percentages', function () 
         'title' => 'Today Todo 2',
         'description' => 'Another test todo for today',
         'priority' => 'high',
-        'completed' => false,
+        'completed_at' => null,
     ]);
     $todo2->created_at = $today;
     $todo2->updated_at = $today;
@@ -42,7 +42,7 @@ test('todo lists index shows date-filtered completion percentages', function () 
         'title' => 'Yesterday Todo 1',
         'description' => 'Test todo for yesterday',
         'priority' => 'low',
-        'completed' => true,
+        'completed_at' => now(),
     ]);
     $todo3->created_at = $yesterday;
     $todo3->updated_at = $yesterday;
@@ -52,7 +52,7 @@ test('todo lists index shows date-filtered completion percentages', function () 
         'title' => 'Yesterday Todo 2',
         'description' => 'Another test todo for yesterday',
         'priority' => 'medium',
-        'completed' => true,
+        'completed_at' => now(),
     ]);
     $todo4->created_at = $yesterday;
     $todo4->updated_at = $yesterday;
@@ -146,7 +146,7 @@ test('individual todo list view shows date-filtered completion percentages', fun
     $todo1 = new Todo([
         'title' => 'Today Todo 1',
         'priority' => 'medium',
-        'completed' => true,
+        'completed_at' => now(),
     ]);
     $todo1->created_at = $today;
     $todo1->updated_at = $today;
@@ -155,7 +155,7 @@ test('individual todo list view shows date-filtered completion percentages', fun
     $todo2 = new Todo([
         'title' => 'Today Todo 2',
         'priority' => 'high',
-        'completed' => false,
+        'completed_at' => null,
     ]);
     $todo2->created_at = $today;
     $todo2->updated_at = $today;
@@ -166,7 +166,7 @@ test('individual todo list view shows date-filtered completion percentages', fun
     $todo3 = new Todo([
         'title' => 'Yesterday Todo',
         'priority' => 'low',
-        'completed' => true,
+        'completed_at' => now(),
     ]);
     $todo3->created_at = $yesterday;
     $todo3->updated_at = $yesterday;
