@@ -62,8 +62,6 @@ class Todo extends Model
         return $this->completed_at !== null;
     }
 
-
-
     /**
      * Mark the todo as completed with current timestamp.
      */
