@@ -12,6 +12,9 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
+coverage.xml
+coverage.txt
+coverage-html/
 Homestead.json
 Homestead.yaml
 npm-debug.log

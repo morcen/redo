@@ -25,7 +25,7 @@ class TodoListController extends Controller
                 $totalTodos = $list->todos()->whereDate('created_at', $selectedDate)->count();
                 $completedTodos = $list->todos()
                     ->whereDate('created_at', $selectedDate)
-                    ->where('completed', true)
+                    ->whereNotNull('completed_at')
                     ->count();
 
                 $list->filtered_completion_percentage = $totalTodos > 0
@@ -122,7 +122,7 @@ class TodoListController extends Controller
             $duplicatedList->todos()->create([
                 'title' => $todo->title,
                 'description' => $todo->description,
-                'completed' => false, // Reset completion status for duplicated todos
+                'completed' => null, // Reset completion status for duplicated todos
                 'priority' => $todo->priority,
                 'due_date' => $todo->due_date,
             ]);
@@ -160,7 +160,11 @@ class TodoListController extends Controller
 
         // Filter by completion status
         if ($request->has('completed')) {
-            $query->where('completed', $request->boolean('completed'));
+            if ($request->boolean('completed')) {
+                $query->whereNotNull('completed_at');
+            } else {
+                $query->whereNull('completed_at');
+            }
         }
 
         // Filter by priority
@@ -197,7 +201,7 @@ class TodoListController extends Controller
         $totalTodos = $todoList->todos()->whereDate('created_at', $selectedDate)->count();
         $completedTodos = $todoList->todos()
             ->whereDate('created_at', $selectedDate)
-            ->where('completed', true)
+            ->whereNotNull('completed_at')
             ->count();
         $completionPercentage = $totalTodos > 0
             ? round(($completedTodos / $totalTodos) * 100, 1)

@@ -21,7 +21,7 @@ class TodoFactory extends Factory
             'todo_list_id' => TodoList::factory(),
             'title' => fake()->sentence(3),
             'description' => fake()->optional()->paragraph(),
-            'completed' => fake()->boolean(20), // 20% chance of being completed
+            'completed_at' => fake()->optional(0.2)->dateTimeBetween('-1 week', 'now'), // 20% chance of being completed
             'priority' => fake()->randomElement(['low', 'medium', 'high']),
             'due_date' => fake()->optional(0.7)->dateTimeBetween('now', '+1 month'),
         ];
@@ -33,7 +33,7 @@ class TodoFactory extends Factory
     public function completed(): static
     {
         return $this->state(fn (array $attributes) => [
-            'completed' => true,
+            'completed_at' => fake()->dateTimeBetween('-1 week', 'now'),
         ]);
     }
 
@@ -43,7 +43,7 @@ class TodoFactory extends Factory
     public function pending(): static
     {
         return $this->state(fn (array $attributes) => [
-            'completed' => false,
+            'completed_at' => null,
         ]);
     }
 
@@ -94,7 +94,7 @@ class TodoFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'due_date' => fake()->dateTimeBetween('-1 month', '-1 day'),
-            'completed' => false,
+            'completed_at' => null,
         ]);
     }
 }

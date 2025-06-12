@@ -19,7 +19,11 @@ class TodoController extends Controller
 
         // Filter by completion status
         if ($request->has('completed')) {
-            $query->where('completed', $request->boolean('completed'));
+            if ($request->boolean('completed')) {
+                $query->whereNotNull('completed_at');
+            } else {
+                $query->whereNull('completed_at');
+            }
         }
 
         // Filter by priority
@@ -42,7 +46,7 @@ class TodoController extends Controller
 
         $todos = $query
             ->orderBy('todos.created_at', 'desc')
-            ->orderBy('todos.completed', 'asc')
+            ->orderByRaw('todos.completed_at IS NULL DESC')
             ->get();
 
         // Get available dates for the dropdown
@@ -106,6 +110,12 @@ class TodoController extends Controller
             'due_date' => 'nullable|date',
             'todo_list_id' => 'required|exists:todo_lists,id',
         ]);
+
+        // Convert boolean completed to timestamp
+        if (isset($validated['completed'])) {
+            $validated['completed_at'] = $validated['completed'] ? now() : null;
+            unset($validated['completed']); // Remove the boolean field
+        }
 
         // Ensure the new todo list also belongs to the authenticated user
         $newTodoList = TodoList::findOrFail($validated['todo_list_id']);

@@ -54,7 +54,7 @@ class TodoList extends Model
             return 0.0;
         }
 
-        $completedTodos = $this->todos()->where('completed', true)->count();
+        $completedTodos = $this->todos()->whereNotNull('completed_at')->count();
 
         return round(($completedTodos / $totalTodos) * 100, 1);
     }
@@ -72,6 +72,6 @@ class TodoList extends Model
      */
     public function getCompletedTodosAttribute(): int
     {
-        return $this->todos()->where('completed', true)->count();
+        return $this->todos()->whereNotNull('completed_at')->count();
     }
 }

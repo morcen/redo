@@ -10,11 +10,11 @@ test('todo list completion percentage is calculated correctly', function () {
     ]);
 
     // Create 5 todos, 3 completed and 2 pending
-    $todoList->todos()->create(['title' => 'Todo 1', 'priority' => 'medium', 'completed' => true]);
-    $todoList->todos()->create(['title' => 'Todo 2', 'priority' => 'medium', 'completed' => true]);
-    $todoList->todos()->create(['title' => 'Todo 3', 'priority' => 'medium', 'completed' => true]);
-    $todoList->todos()->create(['title' => 'Todo 4', 'priority' => 'medium', 'completed' => false]);
-    $todoList->todos()->create(['title' => 'Todo 5', 'priority' => 'medium', 'completed' => false]);
+    $todoList->todos()->create(['title' => 'Todo 1', 'priority' => 'medium', 'completed_at' => now()]);
+    $todoList->todos()->create(['title' => 'Todo 2', 'priority' => 'medium', 'completed_at' => now()]);
+    $todoList->todos()->create(['title' => 'Todo 3', 'priority' => 'medium', 'completed_at' => now()]);
+    $todoList->todos()->create(['title' => 'Todo 4', 'priority' => 'medium', 'completed_at' => null]);
+    $todoList->todos()->create(['title' => 'Todo 5', 'priority' => 'medium', 'completed_at' => null]);
 
     // Test the model attributes
     expect($todoList->total_todos)->toBe(5);
@@ -42,8 +42,8 @@ test('todo list index includes completion statistics', function () {
     ]);
 
     // Create 2 todos, 1 completed
-    $todoList->todos()->create(['title' => 'Todo 1', 'priority' => 'medium', 'completed' => true]);
-    $todoList->todos()->create(['title' => 'Todo 2', 'priority' => 'medium', 'completed' => false]);
+    $todoList->todos()->create(['title' => 'Todo 1', 'priority' => 'medium', 'completed_at' => now()]);
+    $todoList->todos()->create(['title' => 'Todo 2', 'priority' => 'medium', 'completed_at' => null]);
 
     $response = $this->actingAs($user)->get('/todo-lists');
 
@@ -68,7 +68,7 @@ test('completion percentage updates when todo is marked complete', function () {
     $todo = $todoList->todos()->create([
         'title' => 'Test Todo',
         'priority' => 'medium',
-        'completed' => false,
+        'completed_at' => null,
     ]);
 
     // Initially 0% complete
@@ -98,9 +98,9 @@ test('todo list todos page includes completion statistics', function () {
     ]);
 
     // Create 3 todos, 2 completed
-    $todoList->todos()->create(['title' => 'Todo 1', 'priority' => 'medium', 'completed' => true]);
-    $todoList->todos()->create(['title' => 'Todo 2', 'priority' => 'medium', 'completed' => true]);
-    $todoList->todos()->create(['title' => 'Todo 3', 'priority' => 'medium', 'completed' => false]);
+    $todoList->todos()->create(['title' => 'Todo 1', 'priority' => 'medium', 'completed_at' => now()]);
+    $todoList->todos()->create(['title' => 'Todo 2', 'priority' => 'medium', 'completed_at' => now()]);
+    $todoList->todos()->create(['title' => 'Todo 3', 'priority' => 'medium', 'completed_at' => null]);
 
     $response = $this->actingAs($user)->get("/todo-lists/{$todoList->id}/todos");
 

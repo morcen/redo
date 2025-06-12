@@ -37,7 +37,7 @@ test('command recreates todos from yesterday for users in new day', function () 
             'title' => 'Morning Exercise',
             'description' => 'Go for a run',
             'priority' => 'high',
-            'completed' => true,
+            'completed_at' => $yesterday,
             'created_at' => $yesterday,
             'updated_at' => $yesterday,
         ],
@@ -46,7 +46,7 @@ test('command recreates todos from yesterday for users in new day', function () 
             'title' => 'Check Emails',
             'description' => 'Review inbox',
             'priority' => 'medium',
-            'completed' => false,
+            'completed_at' => null,
             'created_at' => $yesterday,
             'updated_at' => $yesterday,
         ],
@@ -68,13 +68,13 @@ test('command recreates todos from yesterday for users in new day', function () 
     // Verify the todos have correct attributes and completion is reset
     $recreatedTodo1 = $todayTodos->where('title', 'Morning Exercise')->first();
     expect($recreatedTodo1)->not->toBeNull();
-    expect($recreatedTodo1->completed)->toBeFalse(); // Should be reset
+    expect($recreatedTodo1->completed)->toBeNull(); // Should be reset
     expect($recreatedTodo1->priority)->toBe('high');
     expect($recreatedTodo1->description)->toBe('Go for a run');
 
     $recreatedTodo2 = $todayTodos->where('title', 'Check Emails')->first();
     expect($recreatedTodo2)->not->toBeNull();
-    expect($recreatedTodo2->completed)->toBeFalse(); // Should be reset
+    expect($recreatedTodo2->completed)->toBeNull(); // Should be reset
     expect($recreatedTodo2->priority)->toBe('medium');
     expect($recreatedTodo2->description)->toBe('Review inbox');
 
@@ -98,7 +98,7 @@ test('command skips lists not marked for daily refresh', function () {
         'todo_list_id' => $todoList->id,
         'title' => 'Project Planning',
         'priority' => 'high',
-        'completed' => false,
+        'completed_at' => null,
         'created_at' => $yesterday,
         'updated_at' => $yesterday,
     ]);
@@ -127,7 +127,7 @@ test('command runs in dry-run mode without creating todos', function () {
         'todo_list_id' => $todoList->id,
         'title' => 'Test Todo',
         'priority' => 'medium',
-        'completed' => false,
+        'completed_at' => null,
         'created_at' => $yesterday,
         'updated_at' => $yesterday,
     ]);
@@ -159,7 +159,7 @@ test('command creates default settings for users without settings', function () 
         'todo_list_id' => $todoList->id,
         'title' => 'Test Todo',
         'priority' => 'medium',
-        'completed' => false,
+        'completed_at' => null,
         'created_at' => $yesterday,
         'updated_at' => $yesterday,
     ]);
@@ -194,7 +194,7 @@ test('command skips users outside processing time window', function () {
         'todo_list_id' => $todoList->id,
         'title' => 'Test Todo',
         'priority' => 'medium',
-        'completed' => false,
+        'completed_at' => null,
         'created_at' => $yesterday,
         'updated_at' => $yesterday,
     ]);

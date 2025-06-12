@@ -84,7 +84,14 @@ test: ## Run tests
 	@./scripts/docker-artisan.sh test
 
 test-coverage: ## Run tests with coverage
-	@./scripts/docker-artisan.sh test --coverage
+	@./scripts/docker-artisan.sh test --coverage-clover=coverage.xml --coverage-html=coverage-html --coverage-text=coverage.txt
+
+test-coverage-report: ## Run tests with coverage and show report
+	@./scripts/docker-artisan.sh test --coverage-clover=coverage.xml --coverage-html=coverage-html --coverage-text=coverage.txt
+	@echo "Coverage report generated:"
+	@echo "- XML: coverage.xml"
+	@echo "- HTML: coverage-html/index.html"
+	@echo "- Text: coverage.txt"
 
 # Monitoring
 ps: ## Show container status

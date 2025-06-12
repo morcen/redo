@@ -28,16 +28,34 @@ const priorityColors = {
     high: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
 };
 
+const isCompleted = computed(() => {
+    return props.todo.completed_at !== null;
+});
+
 const isOverdue = computed(() => {
     if (!props.todo.due_date) return false;
     const dueDate = new Date(props.todo.due_date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return dueDate < today && !props.todo.completed;
+    return dueDate < today && !isCompleted.value;
 });
 
 const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
+};
+
+const formatCompletionTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+
+    if (diffInHours < 1) {
+        return 'Completed just now';
+    } else if (diffInHours < 24) {
+        return `Completed ${Math.floor(diffInHours)} hours ago`;
+    } else {
+        return `Completed on ${date.toLocaleDateString()}`;
+    }
 };
 
 const toggleCompleted = (checked: boolean | 'indeterminate') => {
@@ -48,7 +66,7 @@ const toggleCompleted = (checked: boolean | 'indeterminate') => {
         const form = useForm({
             title: props.todo.title,
             description: props.todo.description,
-            completed: completedValue,
+            completed: completedValue, // Backend will convert boolean to timestamp/null
             priority: props.todo.priority,
             due_date: props.todo.due_date,
             todo_list_id: props.todo.todo_list_id,
@@ -72,20 +90,20 @@ const handleDelete = () => {
 </script>
 
 <template>
-    <Card class="transition-all hover:shadow-md" :class="{ 'opacity-60': todo.completed }">
+    <Card class="transition-all hover:shadow-md" :class="{ 'opacity-60': isCompleted }">
         <CardContent class="p-4">
             <div class="flex items-start gap-3">
                 <!-- Checkbox -->
-                <Checkbox :model-value="todo.completed" @update:model-value="toggleCompleted" class="mt-1" />
+                <Checkbox :model-value="isCompleted" @update:model-value="toggleCompleted" class="mt-1" />
 
                 <!-- Content -->
                 <div class="min-w-0 flex-1">
                     <div class="flex items-start justify-between gap-2">
                         <div class="flex-1">
-                            <h3 class="text-sm font-medium" :class="{ 'text-muted-foreground line-through': todo.completed }">
+                            <h3 class="text-sm font-medium" :class="{ 'text-muted-foreground line-through': isCompleted }">
                                 {{ todo.title }}
                             </h3>
-                            <p v-if="todo.description" class="text-muted-foreground mt-1 text-sm" :class="{ 'line-through': todo.completed }">
+                            <p v-if="todo.description" class="text-muted-foreground mt-1 text-sm" :class="{ 'line-through': isCompleted }">
                                 {{ todo.description }}
                             </p>
                         </div>
@@ -122,6 +140,10 @@ const handleDelete = () => {
                                 {{ formatDate(todo.due_date) }}
                             </span>
                             <span v-if="isOverdue" class="font-medium text-red-600"> (Overdue) </span>
+                        </div>
+
+                        <div v-if="isCompleted && todo.completed_at" class="text-muted-foreground text-xs">
+                            {{ formatCompletionTime(todo.completed_at) }}
                         </div>
                     </div>
                 </div>

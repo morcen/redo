@@ -6,6 +6,7 @@ Unlike traditional todo apps that leave you managing the same recurring tasks ov
 
 [![Code Quality](https://github.com/morcen/redo/actions/workflows/lint.yml/badge.svg)](https://github.com/morcen/redo/actions/workflows/lint.yml)
 [![Tests](https://github.com/morcen/redo/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/morcen/redo/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/morcen/redo/branch/main/graph/badge.svg)](https://codecov.io/gh/morcen/redo)
 ![Laravel](https://img.shields.io/badge/Laravel-12.x-red?style=flat-square&logo=laravel)
 ![Vue.js](https://img.shields.io/badge/Vue.js-3.x-green?style=flat-square&logo=vue.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)
@@ -170,9 +171,22 @@ composer test
 php artisan test
 ```
 
+Run tests with coverage:
+```bash
+composer test:coverage
+# or
+php artisan test --coverage-clover=coverage.xml --coverage-html=coverage-html
+```
+
 Run specific test files:
 ```bash
 php artisan test tests/Feature/TodoListCompletionTest.php
+```
+
+View coverage report:
+```bash
+composer test:coverage-report
+# Then open coverage-html/index.html in your browser
 ```
 
 ## 📁 Project Structure
