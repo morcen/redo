@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Todo;
-use App\Models\TodoList;
 use App\Models\User;
 
 test('todo completion status can be toggled', function () {
@@ -31,7 +30,7 @@ test('todo completion status can be toggled', function () {
     ]);
 
     $response->assertRedirect();
-    
+
     $todo->refresh();
     expect($todo->completed_at)->not->toBeNull();
 
@@ -46,7 +45,7 @@ test('todo completion status can be toggled', function () {
     ]);
 
     $response->assertRedirect();
-    
+
     $todo->refresh();
     expect($todo->completed_at)->toBeNull();
 });
