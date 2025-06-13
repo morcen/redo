@@ -45,7 +45,8 @@ class TodoController extends Controller
         $query->whereDate('todos.created_at', $selectedDate);
 
         $todos = $query
-            ->orderBy('todos.created_at', 'desc')
+            ->orderBy('todos.completed_at', 'asc')
+            ->orderBy('todos.created_at', 'asc')
             ->orderByRaw('todos.completed_at IS NULL DESC')
             ->get();
 
