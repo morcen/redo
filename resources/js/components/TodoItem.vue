@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useToast } from '@/composables/useToast';
 import { type Todo } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { Calendar, Edit, MoreHorizontal, Trash2 } from 'lucide-vue-next';
@@ -21,6 +22,7 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const deleteForm = useForm({});
+const { todoCompleted, todoIncomplete, todoError } = useToast();
 
 const priorityColors = {
     low: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
@@ -72,7 +74,20 @@ const toggleCompleted = (checked: boolean | 'indeterminate') => {
             todo_list_id: props.todo.todo_list_id,
         });
 
-        form.put(route('todos.update', props.todo.id));
+        form.put(route('todos.update', props.todo.id), {
+            onSuccess: () => {
+                // Show appropriate toast based on completion status
+                if (completedValue) {
+                    todoCompleted(props.todo.title);
+                } else {
+                    todoIncomplete(props.todo.title);
+                }
+            },
+            onError: (errors) => {
+                console.error('Error toggling todo completion:', errors);
+                todoError(props.todo.title);
+            }
+        });
     } catch (error) {
         console.error('Error toggling todo completion:', error);
     }
