@@ -110,7 +110,6 @@ const handleClose = () => {
             </DialogHeader>
 
             <form @submit.prevent="handleSubmit" class="space-y-4">
-
                 <div class="space-y-2">
                     <Label for="todo_list_id">List</Label>
                     <div class="rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-700">
@@ -120,7 +119,7 @@ const handleClose = () => {
                         {{ form.errors.todo_list_id }}
                     </p>
                 </div>
-                
+
                 <div class="space-y-2">
                     <Label for="title">Title</Label>
                     <Input id="title" v-model="form.title" placeholder="Enter todo title" :class="{ 'border-red-500': form.errors.title }" />
