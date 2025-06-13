@@ -86,7 +86,7 @@ const toggleCompleted = (checked: boolean | 'indeterminate') => {
             onError: (errors) => {
                 console.error('Error toggling todo completion:', errors);
                 todoError(props.todo.title);
-            }
+            },
         });
     } catch (error) {
         console.error('Error toggling todo completion:', error);

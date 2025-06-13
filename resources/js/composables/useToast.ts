@@ -1,5 +1,5 @@
-import { reactive } from 'vue';
 import type { Toast, ToastState } from '@/types/index.d';
+import { reactive } from 'vue';
 
 // Global toast state
 const state = reactive<ToastState>({
@@ -47,7 +47,7 @@ export const useToast = () => {
     };
 
     const removeToast = (id: string): void => {
-        const index = state.toasts.findIndex(toast => toast.id === id);
+        const index = state.toasts.findIndex((toast) => toast.id === id);
         if (index > -1) {
             state.toasts.splice(index, 1);
         }
@@ -77,7 +77,7 @@ export const useToast = () => {
 
     const clearAllToasts = (): void => {
         // Clear all timeouts
-        timeouts.forEach(timeoutId => clearTimeout(timeoutId));
+        timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
         timeouts.clear();
 
         state.toasts.splice(0);
@@ -116,14 +116,14 @@ export const useToast = () => {
     const bulkTodosCompleted = (count: number): string => {
         return success(
             `${count} todo${count === 1 ? '' : 's'} completed!`,
-            `Successfully marked ${count} todo${count === 1 ? '' : 's'} as complete.`
+            `Successfully marked ${count} todo${count === 1 ? '' : 's'} as complete.`,
         );
     };
 
     const bulkTodosIncomplete = (count: number): string => {
         return warning(
             `${count} todo${count === 1 ? '' : 's'} marked incomplete`,
-            `Successfully marked ${count} todo${count === 1 ? '' : 's'} as incomplete.`
+            `Successfully marked ${count} todo${count === 1 ? '' : 's'} as incomplete.`,
         );
     };
 
