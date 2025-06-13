@@ -86,4 +86,16 @@ export interface TodoFilters {
     date?: string;
 }
 
+export interface Toast {
+    id: string;
+    type: 'success' | 'error' | 'warning' | 'info';
+    title: string;
+    description?: string;
+    duration?: number;
+}
+
+export interface ToastState {
+    toasts: Toast[];
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
