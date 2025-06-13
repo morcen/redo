@@ -185,7 +185,10 @@ class TodoListController extends Controller
         $selectedDate = $request->get('date', now()->format('Y-m-d'));
         $query->whereDate('created_at', $selectedDate);
 
-        $todos = $query->orderBy('created_at', 'desc')->get();
+        $todos = $query
+            ->orderBy('completed_at', 'asc')
+            ->orderBy('created_at', 'asc')
+            ->get();
 
         // Get available dates for the dropdown (for this specific list)
         $availableDates = $todoList->todos()
