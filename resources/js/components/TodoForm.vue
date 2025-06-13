@@ -40,6 +40,11 @@ const form = useForm({
     todo_list_id: '',
 });
 
+const isListRefreshDaily = computed(() => {
+    const selectedList = props.todoLists.find((list) => list.id.toString() === form.todo_list_id);
+    return selectedList?.refresh_daily || false;
+});
+
 // Watch for todo prop changes to populate form
 watch(
     () => props.todo,
@@ -105,6 +110,17 @@ const handleClose = () => {
             </DialogHeader>
 
             <form @submit.prevent="handleSubmit" class="space-y-4">
+
+                <div class="space-y-2">
+                    <Label for="todo_list_id">List</Label>
+                    <div class="rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-700">
+                        {{ selectedListName || 'No list selected' }}
+                    </div>
+                    <p v-if="form.errors.todo_list_id" class="text-sm text-red-500">
+                        {{ form.errors.todo_list_id }}
+                    </p>
+                </div>
+                
                 <div class="space-y-2">
                     <Label for="title">Title</Label>
                     <Input id="title" v-model="form.title" placeholder="Enter todo title" :class="{ 'border-red-500': form.errors.title }" />
@@ -128,16 +144,6 @@ const handleClose = () => {
                 </div>
 
                 <div class="space-y-2">
-                    <Label for="todo_list_id">List</Label>
-                    <div class="rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-700">
-                        {{ selectedListName || 'No list selected' }}
-                    </div>
-                    <p v-if="form.errors.todo_list_id" class="text-sm text-red-500">
-                        {{ form.errors.todo_list_id }}
-                    </p>
-                </div>
-
-                <div class="space-y-2">
                     <Label for="priority">Priority</Label>
                     <Select v-model="form.priority">
                         <SelectTrigger>
@@ -154,7 +160,7 @@ const handleClose = () => {
                     </p>
                 </div>
 
-                <div class="space-y-2">
+                <div class="space-y-2" v-if="!isListRefreshDaily">
                     <Label for="due_date">Due Date</Label>
                     <Input id="due_date" v-model="form.due_date" type="date" :class="{ 'border-red-500': form.errors.due_date }" />
                     <p v-if="form.errors.due_date" class="text-sm text-red-500">
