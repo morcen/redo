@@ -2,7 +2,7 @@
 
 **The only todo app that truly understands your daily routine.**
 
-Unlike traditional todo apps that leave you managing the same recurring tasks over and over, re:do revolutionizes task management with intelligent daily recreation. Built with Laravel and Vue.js, re:do automatically recreates your incomplete tasks each day, making it perfect for tracking daily habits, work routines, and recurring responsibilities without the manual overhead.
+Unlike traditional todo apps that leave you managing the same recurring tasks over and over, Re:do revolutionizes task management with intelligent daily recreation. Built with Laravel and Vue.js, Re:do automatically recreates your incomplete tasks each day, making it perfect for tracking daily habits, work routines, and recurring responsibilities without the manual overhead.
 
 [![Code Quality](https://github.com/morcen/redo/actions/workflows/lint.yml/badge.svg)](https://github.com/morcen/redo/actions/workflows/lint.yml)
 [![Tests](https://github.com/morcen/redo/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/morcen/redo/actions/workflows/tests.yml)
@@ -20,7 +20,7 @@ Unlike traditional todo apps that leave you managing the same recurring tasks ov
 - **Intelligent Task Continuity**: Automatically recreates yesterday's incomplete tasks each morning
 - **Timezone-Aware Processing**: Respects user timezones to recreate tasks at the right moment
 - **Selective Recreation**: Choose which lists should refresh daily vs. permanent project lists
-- **Zero Manual Effort**: Never manually copy recurring tasks again - re:do handles it seamlessly
+- **Zero Manual Effort**: Never manually copy recurring tasks again - Re:do handles it seamlessly
 
 ### 🎯 Perfect For
 - **Daily Habits**: Exercise routines, meditation, reading goals
@@ -120,7 +120,7 @@ php artisan queue:work
 4. Choose whether the list should refresh daily
 5. Start adding todos to your list
 
-### Daily Recreation Feature - The re:do Advantage
+### Daily Recreation Feature - The Re:do Advantage
 **Why this changes everything:**
 - **Set It and Forget It**: Mark lists as `refresh_daily: true` and never think about recreating tasks again
 - **Habit Formation Made Easy**: Perfect for building consistent daily routines without the friction
@@ -230,7 +230,7 @@ database/
 | **Routine Automation** | ✅ Set once, works forever | ❌ Constant manual management |
 | **Progress Visualization** | ✅ Smart completion tracking | ❌ Basic checkboxes |
 
-**The Bottom Line**: While other apps make you work harder to maintain your routines, re:do works for you. It's the difference between manually watering each plant every day vs. having an intelligent irrigation system.
+**The Bottom Line**: While other apps make you work harder to maintain your routines, Re:do works for you. It's the difference between manually watering each plant every day vs. having an intelligent irrigation system.
 
 ## 🤝 Contributing
 
@@ -264,7 +264,7 @@ We welcome contributions! Here's how you can help:
 
 ## 💖 Support the Project
 
-If you find re:do useful, consider supporting its development:
+If you find Re:do useful, consider supporting its development:
 
 ### 💰 Donations
 - **GitHub Sponsors**: [Sponsor this project](https://github.com/sponsors/morcen)
@@ -292,7 +292,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 <div align="center">
-  <p>Made with ❤️ by the re:do team</p>
+  <p>Made with ❤️ by the Re:do team</p>
   <p>
     <a href="https://github.com/morcen/redo/issues">Report Bug</a> •
     <a href="https://github.com/morcen/redo/issues">Request Feature</a> •

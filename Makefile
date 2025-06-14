@@ -1,11 +1,11 @@
-# Makefile for re:do Laravel Docker Setup
+# Makefile for Re:do Laravel Docker Setup
 # Provides convenient shortcuts for Docker operations
 
 .PHONY: help setup start stop restart logs build clean artisan deploy status backup
 
 # Default target
 help: ## Show this help message
-	@echo "re:do Laravel Docker Commands"
+	@echo "Re:do Laravel Docker Commands"
 	@echo "============================="
 	@echo ""
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)

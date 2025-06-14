@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for re:do Laravel Application
+# Multi-stage Dockerfile for Re:do Laravel Application
 
 # Stage 1: PHP base image with extensions
 FROM php:8.2-fpm-alpine AS php-base

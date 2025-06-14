@@ -1,6 +1,6 @@
-# Docker Setup for re:do Laravel Application
+# Docker Setup for Re:do Laravel Application
 
-This document provides comprehensive instructions for running the re:do Laravel todo list application using Docker.
+This document provides comprehensive instructions for running the Re:do Laravel todo list application using Docker.
 
 ## Prerequisites
 

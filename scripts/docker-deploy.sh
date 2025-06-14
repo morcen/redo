@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Production Deployment Script for re:do Laravel Application
+# Production Deployment Script for Re:do Laravel Application
 # This script handles production deployment with Docker
 
 set -e
@@ -224,7 +224,7 @@ main() {
             backup_deployment
             ;;
         "help")
-            echo "Production Deployment Script for re:do"
+            echo "Production Deployment Script for Re:do"
             echo "======================================"
             echo ""
             echo "Usage: $0 [command] [options]"
