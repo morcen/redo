@@ -1,4 +1,4 @@
--- Initialize re:do database
+-- Initialize Re:do database
 -- This script runs when the MySQL container starts for the first time
 
 -- Create database if it doesn't exist

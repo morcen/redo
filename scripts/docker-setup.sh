@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Docker Setup Script for re:do Laravel Application
+# Docker Setup Script for Re:do Laravel Application
 # This script helps with initial setup and common Docker operations
 
 set -e
@@ -154,7 +154,7 @@ show_urls() {
 
 # Main setup function
 main() {
-    echo "🚀 Setting up re:do Laravel Application with Docker"
+    echo "🚀 Setting up Re:do Laravel Application with Docker"
     echo "=================================================="
     
     # Check prerequisites
