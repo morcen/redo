@@ -19,7 +19,8 @@ test('user can view general settings with default values', function () {
     $response = $this->actingAs($user)->get('/settings/general');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => $page
+    $response->assertInertia(
+        fn ($page) => $page
         ->component('settings/General')
         ->has('settings')
         ->has('timezones')
@@ -162,7 +163,8 @@ test('timezones list is provided to frontend', function () {
     $response = $this->actingAs($user)->get('/settings/general');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => $page
+    $response->assertInertia(
+        fn ($page) => $page
         ->component('settings/General')
         ->has('timezones')
         ->where('timezones.UTC', 'UTC')

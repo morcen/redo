@@ -14,7 +14,8 @@ test('user can view todo lists index', function () {
     $response = $this->actingAs($user)->get('/todo-lists');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => $page
+    $response->assertInertia(
+        fn ($page) => $page
         ->component('TodoLists/Index')
         ->has('lists', 2)
         ->where('lists.0.name', 'Work Tasks')
@@ -131,7 +132,8 @@ test('user can view todos for specific list', function () {
     $response = $this->actingAs($user)->get("/todo-lists/{$todoList->id}/todos");
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => $page
+    $response->assertInertia(
+        fn ($page) => $page
         ->component('TodoLists/Todos')
         ->has('list')
         ->has('todos', 2)
@@ -163,7 +165,8 @@ test('todo lists index includes completion statistics', function () {
     $response = $this->actingAs($user)->get('/todo-lists');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => $page
+    $response->assertInertia(
+        fn ($page) => $page
         ->component('TodoLists/Index')
         ->has('lists', 1)
         ->where('lists.0.filtered_completion_percentage', 33.3)
@@ -181,7 +184,8 @@ test('todo list todos page includes completion statistics', function () {
     $response = $this->actingAs($user)->get("/todo-lists/{$todoList->id}/todos");
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => $page
+    $response->assertInertia(
+        fn ($page) => $page
         ->component('TodoLists/Todos')
         ->has('list')
         ->where('list.filtered_completion_percentage', 50)

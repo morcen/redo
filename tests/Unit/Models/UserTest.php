@@ -60,7 +60,7 @@ test('user factory can create unverified users', function () {
 });
 
 test('user has correct fillable attributes', function () {
-    $user = new User;
+    $user = new User();
 
     $expectedFillable = [
         'name',
@@ -72,7 +72,7 @@ test('user has correct fillable attributes', function () {
 });
 
 test('user has correct hidden attributes', function () {
-    $user = new User;
+    $user = new User();
 
     $expectedHidden = [
         'password',

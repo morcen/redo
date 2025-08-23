@@ -19,7 +19,7 @@ test('todo belongs to todo list', function () {
 });
 
 test('todo has correct fillable attributes', function () {
-    $todo = new Todo;
+    $todo = new Todo();
 
     $expectedFillable = [
         'title',

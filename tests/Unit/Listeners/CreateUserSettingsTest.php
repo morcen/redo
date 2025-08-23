@@ -17,7 +17,7 @@ test('creates default settings when user is registered', function () {
 
     // Create the event and listener
     $event = new Registered($user);
-    $listener = new CreateUserSettings;
+    $listener = new CreateUserSettings();
 
     // Handle the event
     $listener->handle($event);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
-use App\Models\TodoList;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +18,10 @@ class DashboardController extends Controller
         $user = Auth::user();
         $today = now()->format('Y-m-d');
         $userTimezone = $user->settings?->timezone ?? 'UTC';
-        
+
         // Get today's date in user's timezone
         $todayInUserTz = Carbon::now($userTimezone)->format('Y-m-d');
-        
+
         $dashboardData = [
             'todayStats' => $this->getTodayStats($user, $todayInUserTz),
             'urgentTasks' => $this->getUrgentTasks($user),
@@ -65,7 +64,7 @@ class DashboardController extends Controller
     private function getUrgentTasks($user)
     {
         $today = now()->format('Y-m-d');
-        
+
         $urgentTodos = $user->todos()
             ->whereNull('completed_at') // Only incomplete tasks
             ->where(function ($query) use ($today) {
@@ -196,7 +195,7 @@ class DashboardController extends Controller
         $currentStreak = 0;
         $bestStreak = 0;
         $tempStreak = 0;
-        
+
         // Check last 30 days
         for ($i = 0; $i < 30; $i++) {
             $checkDate = now()->subDays($i)->format('Y-m-d');
@@ -205,12 +204,14 @@ class DashboardController extends Controller
                 ->get();
 
             if ($dayTodos->isEmpty()) {
-                if ($i === 0) continue; // Skip today if no todos yet
+                if ($i === 0) {
+                    continue;
+                } // Skip today if no todos yet
                 break; // Break streak if no todos on this day
             }
 
             $dayCompletion = $dayTodos->whereNotNull('completed_at')->count() / $dayTodos->count();
-            
+
             if ($dayCompletion === 1.0) { // 100% completion
                 $tempStreak++;
                 if ($i === 0 || $currentStreak === 0) {
@@ -240,7 +241,7 @@ class DashboardController extends Controller
     private function getUpcomingTasks($user)
     {
         $today = now()->format('Y-m-d');
-        
+
         $upcomingTasks = $user->todos()
             ->whereNull('completed_at')
             ->where('due_date', '>', $today)

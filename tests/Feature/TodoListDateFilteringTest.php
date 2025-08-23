@@ -62,7 +62,8 @@ test('todo lists index shows date-filtered completion percentages', function () 
     $response = $this->actingAs($user)->get('/todo-lists?date='.$today->format('Y-m-d'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('TodoLists/Index')
+    $response->assertInertia(
+        fn ($page) => $page->component('TodoLists/Index')
         ->has('lists', 1)
         ->where('lists.0.filtered_completion_percentage', 50)
         ->where('lists.0.filtered_total_todos', 2)
@@ -74,7 +75,8 @@ test('todo lists index shows date-filtered completion percentages', function () 
     $response = $this->actingAs($user)->get('/todo-lists?date='.$yesterday->format('Y-m-d'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('TodoLists/Index')
+    $response->assertInertia(
+        fn ($page) => $page->component('TodoLists/Index')
         ->has('lists', 1)
         ->where('lists.0.filtered_completion_percentage', 100)
         ->where('lists.0.filtered_total_todos', 2)
@@ -124,7 +126,8 @@ test('todo lists index provides available dates', function () {
     $response = $this->actingAs($user)->get('/todo-lists');
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('TodoLists/Index')
+    $response->assertInertia(
+        fn ($page) => $page->component('TodoLists/Index')
         ->has('availableDates', 3)
         ->where('availableDates.0', $twoDaysAgo->format('Y-m-d'))
         ->where('availableDates.1', $yesterday->format('Y-m-d'))
@@ -176,7 +179,8 @@ test('individual todo list view shows date-filtered completion percentages', fun
     $response = $this->actingAs($user)->get("/todo-lists/{$todoList->id}/todos?date=".$today->format('Y-m-d'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('TodoLists/Todos')
+    $response->assertInertia(
+        fn ($page) => $page->component('TodoLists/Todos')
         ->where('list.filtered_completion_percentage', 50)
         ->where('list.filtered_total_todos', 2)
         ->where('list.filtered_completed_todos', 1)
@@ -187,7 +191,8 @@ test('individual todo list view shows date-filtered completion percentages', fun
     $response = $this->actingAs($user)->get("/todo-lists/{$todoList->id}/todos?date=".$yesterday->format('Y-m-d'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('TodoLists/Todos')
+    $response->assertInertia(
+        fn ($page) => $page->component('TodoLists/Todos')
         ->where('list.filtered_completion_percentage', 100)
         ->where('list.filtered_total_todos', 1)
         ->where('list.filtered_completed_todos', 1)

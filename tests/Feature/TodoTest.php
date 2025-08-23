@@ -119,7 +119,8 @@ test('user can view todos for a specific list', function () {
     $response = $this->actingAs($user)->get("/todo-lists/{$todoList1->id}/todos");
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page
+    $response->assertInertia(
+        fn ($page) => $page
         ->component('TodoLists/Todos')
         ->has('todos', 1)
         ->where('todos.0.title', 'Work Todo')
@@ -131,7 +132,8 @@ test('user can view todos for a specific list', function () {
     $response = $this->actingAs($user)->get("/todo-lists/{$todoList2->id}/todos");
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page
+    $response->assertInertia(
+        fn ($page) => $page
         ->component('TodoLists/Todos')
         ->has('todos', 1)
         ->where('todos.0.title', 'Personal Todo')

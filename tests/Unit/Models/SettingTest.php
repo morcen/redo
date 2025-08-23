@@ -18,7 +18,7 @@ test('setting belongs to user', function () {
 });
 
 test('setting has correct fillable attributes', function () {
-    $setting = new Setting;
+    $setting = new Setting();
 
     $expectedFillable = [
         'user_id',
