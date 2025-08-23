@@ -197,7 +197,7 @@ import { Head, Link } from '@inertiajs/vue3';
                     <div class="relative">
                         <h2 class="text-primary-foreground text-3xl font-bold tracking-tight sm:text-4xl">Ready to get organized?</h2>
                         <p class="text-primary-foreground/90 mx-auto mt-4 max-w-2xl text-lg">
-                            Join thousands of users who have transformed their productivity with Re:do's intelligent task management.
+                            Be one of those who have transformed their productivity with Re:do's intelligent task management.
                         </p>
                         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
                             <Link
