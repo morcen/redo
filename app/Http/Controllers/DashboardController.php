@@ -18,9 +18,14 @@ class DashboardController extends Controller
         $user = Auth::user();
         $today = now()->format('Y-m-d');
         $userTimezone = $user->settings?->timezone ?? 'UTC';
-
+        
         // Get today's date in user's timezone
-        $todayInUserTz = Carbon::now($userTimezone)->format('Y-m-d');
+        try {
+            $todayInUserTz = Carbon::now($userTimezone)->format('Y-m-d');
+        } catch (\Exception $e) {
+            // Fall back to UTC if timezone is invalid
+            $todayInUserTz = now()->format('Y-m-d');
+        }
 
         $dashboardData = [
             'todayStats' => $this->getTodayStats($user, $todayInUserTz),
@@ -64,12 +69,12 @@ class DashboardController extends Controller
     private function getUrgentTasks($user)
     {
         $today = now()->format('Y-m-d');
-
+        
         $urgentTodos = $user->todos()
             ->whereNull('completed_at') // Only incomplete tasks
             ->where(function ($query) use ($today) {
-                $query->where('due_date', '<=', $today)
-                    ->orWhere('due_date', $today);
+                $query->whereDate('due_date', '<=', $today)
+                      ->whereNotNull('due_date');
             })
             ->with('todoList')
             ->orderBy('due_date', 'asc')
@@ -252,7 +257,7 @@ class DashboardController extends Controller
             ->get();
 
         return $upcomingTasks->map(function ($todo) {
-            $daysUntilDue = now()->diffInDays($todo->due_date);
+            $daysUntilDue = (int) now()->diffInDays($todo->due_date);
             return [
                 'id' => $todo->id,
                 'title' => $todo->title,

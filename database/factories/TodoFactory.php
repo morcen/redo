@@ -97,4 +97,35 @@ class TodoFactory extends Factory
             'completed_at' => null,
         ]);
     }
+
+    /**
+     * Indicate that the todo was created today.
+     */
+    public function today(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'created_at' => now()->startOfDay()->addHours(rand(8, 18)),
+        ]);
+    }
+
+    /**
+     * Indicate that the todo was created yesterday.
+     */
+    public function yesterday(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'created_at' => now()->subDay()->startOfDay()->addHours(rand(8, 18)),
+        ]);
+    }
+
+    /**
+     * Indicate that the todo is due today.
+     */
+    public function dueToday(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'due_date' => now()->format('Y-m-d'),
+            'completed_at' => null,
+        ]);
+    }
 }

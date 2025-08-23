@@ -24,4 +24,24 @@ class TodoListFactory extends Factory
             'refresh_daily' => fake()->boolean(10), // 10% chance of being marked for daily refresh
         ];
     }
+
+    /**
+     * Indicate that the todo list is a daily habit.
+     */
+    public function dailyHabit(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'refresh_daily' => true,
+        ]);
+    }
+
+    /**
+     * Indicate that the todo list is a regular project list.
+     */
+    public function project(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'refresh_daily' => false,
+        ]);
+    }
 }
