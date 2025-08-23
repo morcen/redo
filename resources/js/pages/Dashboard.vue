@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
-import TodayTasksWidget from '@/components/dashboard/TodayTasksWidget.vue';
-import UrgentTasksWidget from '@/components/dashboard/UrgentTasksWidget.vue';
 import DailyHabitsWidget from '@/components/dashboard/DailyHabitsWidget.vue';
 import QuickStatsWidget from '@/components/dashboard/QuickStatsWidget.vue';
 import StreakWidget from '@/components/dashboard/StreakWidget.vue';
+import TodayTasksWidget from '@/components/dashboard/TodayTasksWidget.vue';
+import UrgentTasksWidget from '@/components/dashboard/UrgentTasksWidget.vue';
 import Badge from '@/components/ui/badge/Badge.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
+import { Head } from '@inertiajs/vue3';
 import { Calendar } from 'lucide-vue-next';
 
 interface DashboardData {
@@ -58,30 +58,27 @@ function getTimeOfDayGreeting() {
             <!-- Second Row - Detailed Views -->
             <div class="grid gap-4 md:grid-cols-2">
                 <DailyHabitsWidget :habits="dailyHabitsProgress" />
-                <StreakWidget 
-                    :streak-info="streakInfo" 
-                    :recent-activity="recentActivity" 
-                />
+                <StreakWidget :streak-info="streakInfo" :recent-activity="recentActivity" />
             </div>
 
             <!-- Upcoming Tasks (if any) -->
             <div v-if="upcomingTasks && upcomingTasks.length > 0" class="mt-2">
-                <div class="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-4">
-                    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+                <div class="rounded-lg bg-blue-50 p-4 dark:bg-blue-950/20">
+                    <h3 class="mb-3 flex items-center gap-2 text-lg font-semibold">
                         <Calendar class="h-5 w-5 text-blue-500" />
                         Upcoming Tasks
                     </h3>
                     <div class="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
-                        <div 
-                            v-for="task in upcomingTasks.slice(0, 6)" 
+                        <div
+                            v-for="task in upcomingTasks.slice(0, 6)"
                             :key="task.id"
-                            class="bg-white dark:bg-gray-800 rounded-lg p-3 border border-blue-200 dark:border-blue-800"
+                            class="rounded-lg border border-blue-200 bg-white p-3 dark:border-blue-800 dark:bg-gray-800"
                         >
-                            <div class="flex justify-between items-start gap-2 mb-1">
-                                <h4 class="text-sm font-medium line-clamp-1">{{ task.title }}</h4>
+                            <div class="mb-1 flex items-start justify-between gap-2">
+                                <h4 class="line-clamp-1 text-sm font-medium">{{ task.title }}</h4>
                                 <Badge variant="outline" class="text-xs">{{ task.priority }}</Badge>
                             </div>
-                            <div class="text-xs text-muted-foreground flex items-center justify-between">
+                            <div class="text-muted-foreground flex items-center justify-between text-xs">
                                 <span>{{ task.list_name }}</span>
                                 <span>{{ task.days_until_due }} days</span>
                             </div>

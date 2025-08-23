@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import Badge from '@/components/ui/badge/Badge.vue';
 import Card from '@/components/ui/card/Card.vue';
 import CardContent from '@/components/ui/card/CardContent.vue';
 import CardHeader from '@/components/ui/card/CardHeader.vue';
-import Badge from '@/components/ui/badge/Badge.vue';
-import { Repeat, CheckCircle, Target } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
+import { CheckCircle, Repeat, Target } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 interface DailyHabit {
     id: number;
@@ -30,7 +30,7 @@ const overallProgress = computed(() => {
 });
 
 const completedHabits = computed(() => {
-    return props.habits.filter(habit => habit.is_complete).length;
+    return props.habits.filter((habit) => habit.is_complete).length;
 });
 
 const progressColor = (rate: number) => {
@@ -56,40 +56,31 @@ const badgeVariant = (rate: number) => {
                 <h3 class="text-lg font-semibold">Daily Habits</h3>
             </div>
             <div class="flex items-center gap-2">
-                <p class="text-sm text-muted-foreground">
+                <p class="text-muted-foreground text-sm">
                     {{ habits.length > 0 ? `${completedHabits}/${habits.length} complete` : 'No daily habits set up' }}
                 </p>
-                <Badge v-if="habits.length > 0" :variant="badgeVariant(overallProgress)" class="text-xs">
-                    {{ overallProgress }}%
-                </Badge>
+                <Badge v-if="habits.length > 0" :variant="badgeVariant(overallProgress)" class="text-xs"> {{ overallProgress }}% </Badge>
             </div>
         </CardHeader>
         <CardContent>
-            <div v-if="habits.length === 0" class="text-center py-8">
-                <div class="text-blue-500 mb-2">
-                    <Target class="h-8 w-8 mx-auto" />
+            <div v-if="habits.length === 0" class="py-8 text-center">
+                <div class="mb-2 text-blue-500">
+                    <Target class="mx-auto h-8 w-8" />
                 </div>
-                <p class="text-sm text-muted-foreground mb-2">No daily habits yet</p>
-                <p class="text-xs text-muted-foreground">
-                    Create lists with "refresh daily" enabled to track habits
-                </p>
-                <Link 
-                    href="/todo-lists" 
-                    class="inline-block mt-2 text-xs text-primary hover:underline"
-                >
-                    Create your first habit list →
-                </Link>
+                <p class="text-muted-foreground mb-2 text-sm">No daily habits yet</p>
+                <p class="text-muted-foreground text-xs">Create lists with "refresh daily" enabled to track habits</p>
+                <Link href="/todo-lists" class="text-primary mt-2 inline-block text-xs hover:underline"> Create your first habit list → </Link>
             </div>
 
-            <div v-else class="space-y-4 max-h-72 overflow-y-auto">
+            <div v-else class="max-h-72 space-y-4 overflow-y-auto">
                 <!-- Overall Progress -->
                 <div class="bg-muted/50 rounded-lg p-3">
-                    <div class="flex justify-between items-center mb-2">
+                    <div class="mb-2 flex items-center justify-between">
                         <span class="text-sm font-medium">Overall Progress</span>
-                        <span class="text-sm text-muted-foreground">{{ overallProgress }}%</span>
+                        <span class="text-muted-foreground text-sm">{{ overallProgress }}%</span>
                     </div>
-                    <div class="h-2 bg-muted rounded-full overflow-hidden">
-                        <div 
+                    <div class="bg-muted h-2 overflow-hidden rounded-full">
+                        <div
                             :class="progressColor(overallProgress)"
                             class="h-full transition-all duration-500"
                             :style="{ width: `${overallProgress}%` }"
@@ -99,42 +90,29 @@ const badgeVariant = (rate: number) => {
 
                 <!-- Individual Habits -->
                 <div class="space-y-3">
-                    <div 
-                        v-for="habit in habits" 
+                    <div
+                        v-for="habit in habits"
                         :key="habit.id"
-                        class="border rounded-lg p-3 hover:bg-muted/50 transition-colors"
+                        class="hover:bg-muted/50 rounded-lg border p-3 transition-colors"
                         :class="{ 'border-green-200 bg-green-50 dark:bg-green-950/20': habit.is_complete }"
                     >
-                        <div class="flex justify-between items-start gap-2 mb-2">
-                            <Link 
-                                :href="`/todo-lists/${habit.id}/todos`"
-                                class="text-sm font-medium hover:underline flex-1"
-                            >
+                        <div class="mb-2 flex items-start justify-between gap-2">
+                            <Link :href="`/todo-lists/${habit.id}/todos`" class="flex-1 text-sm font-medium hover:underline">
                                 {{ habit.name }}
                             </Link>
                             <div class="flex items-center gap-1">
-                                <CheckCircle 
-                                    v-if="habit.is_complete"
-                                    class="h-4 w-4 text-green-500"
-                                />
-                                <Badge 
-                                    :variant="badgeVariant(habit.completion_rate)" 
-                                    class="text-xs"
-                                >
-                                    {{ habit.completion_rate }}%
-                                </Badge>
+                                <CheckCircle v-if="habit.is_complete" class="h-4 w-4 text-green-500" />
+                                <Badge :variant="badgeVariant(habit.completion_rate)" class="text-xs"> {{ habit.completion_rate }}% </Badge>
                             </div>
                         </div>
 
                         <div class="space-y-2">
-                            <div class="flex justify-between items-center text-xs text-muted-foreground">
+                            <div class="text-muted-foreground flex items-center justify-between text-xs">
                                 <span>{{ habit.completed_todos }}/{{ habit.total_todos }} tasks</span>
-                                <span v-if="habit.total_todos > 0">
-                                    {{ habit.total_todos - habit.completed_todos }} remaining
-                                </span>
+                                <span v-if="habit.total_todos > 0"> {{ habit.total_todos - habit.completed_todos }} remaining </span>
                             </div>
-                            <div class="h-1.5 bg-muted rounded-full overflow-hidden">
-                                <div 
+                            <div class="bg-muted h-1.5 overflow-hidden rounded-full">
+                                <div
                                     :class="progressColor(habit.completion_rate)"
                                     class="h-full transition-all duration-300"
                                     :style="{ width: `${habit.completion_rate}%` }"
@@ -142,20 +120,15 @@ const badgeVariant = (rate: number) => {
                             </div>
                         </div>
 
-                        <p v-if="habit.description" class="text-xs text-muted-foreground mt-2">
+                        <p v-if="habit.description" class="text-muted-foreground mt-2 text-xs">
                             {{ habit.description }}
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div v-if="habits.length > 0" class="mt-4 pt-3 border-t">
-                <Link 
-                    href="/todo-lists" 
-                    class="text-xs text-primary hover:underline"
-                >
-                    Manage habit lists →
-                </Link>
+            <div v-if="habits.length > 0" class="mt-4 border-t pt-3">
+                <Link href="/todo-lists" class="text-primary text-xs hover:underline"> Manage habit lists → </Link>
             </div>
         </CardContent>
     </Card>
