@@ -6,23 +6,6 @@ import CardHeader from '@/components/ui/card/CardHeader.vue';
 import { Link } from '@inertiajs/vue3';
 import { AlertTriangle, Calendar, Clock } from 'lucide-vue-next';
 
-interface UrgentTask {
-    id: number;
-    title: string;
-    description: string | null;
-    priority: 'low' | 'medium' | 'high';
-    due_date: string | null;
-    is_overdue: boolean;
-    list_name: string;
-    list_id: number;
-}
-
-interface Props {
-    tasks: UrgentTask[];
-}
-
-const props = defineProps<Props>();
-
 const priorityColor = (priority: string) => {
     switch (priority) {
         case 'high':
@@ -34,11 +17,6 @@ const priorityColor = (priority: string) => {
         default:
             return 'outline';
     }
-};
-
-const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 };
 
 const getDaysInfo = (dateString: string, isOverdue: boolean) => {
