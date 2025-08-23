@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         $today = now()->format('Y-m-d');
         $userTimezone = $user->settings?->timezone ?? 'UTC';
-        
+
         // Get today's date in user's timezone
         try {
             $todayInUserTz = Carbon::now($userTimezone)->format('Y-m-d');
@@ -69,7 +69,7 @@ class DashboardController extends Controller
     private function getUrgentTasks($user)
     {
         $today = now()->format('Y-m-d');
-        
+
         $urgentTodos = $user->todos()
             ->whereNull('completed_at') // Only incomplete tasks
             ->where(function ($query) use ($today) {

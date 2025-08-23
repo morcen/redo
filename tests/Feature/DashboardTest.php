@@ -4,7 +4,6 @@ use App\Models\Setting;
 use App\Models\Todo;
 use App\Models\TodoList;
 use App\Models\User;
-use Carbon\Carbon;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -28,9 +27,10 @@ test('dashboard returns all required data for new user', function () {
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->has('todayStats')
             ->has('urgentTasks')
@@ -59,17 +59,18 @@ test('dashboard returns all required data for new user', function () {
 test('dashboard shows today\'s stats correctly', function () {
     $user = User::factory()->create();
     $list = TodoList::factory()->for($user)->create();
-    
+
     // Create todos for today
     Todo::factory()->for($list)->today()->completed()->count(3)->create();
     Todo::factory()->for($list)->today()->pending()->count(2)->create();
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->where('todayStats.total', 5)
             ->where('todayStats.completed', 3)
@@ -82,26 +83,27 @@ test('dashboard shows today\'s stats correctly', function () {
 test('dashboard identifies urgent tasks correctly', function () {
     $user = User::factory()->create();
     $list = TodoList::factory()->for($user)->create();
-    
+
     // Create overdue task
     $overdueTodo = Todo::factory()->for($list)->overdue()->highPriority()->create([
         'title' => 'Overdue Important Task'
     ]);
-    
+
     // Create due today task
     $dueTodayTodo = Todo::factory()->for($list)->dueToday()->mediumPriority()->create([
         'title' => 'Due Today Task'
     ]);
-    
+
     // Create future task (should not be urgent)
     Todo::factory()->for($list)->withDueDate()->lowPriority()->create();
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->has('urgentTasks', 2)
             ->where('urgentTasks.0.title', 'Overdue Important Task')
@@ -115,28 +117,29 @@ test('dashboard identifies urgent tasks correctly', function () {
 
 test('dashboard tracks daily habits progress correctly', function () {
     $user = User::factory()->create();
-    
+
     // Create daily habit list
     $dailyList = TodoList::factory()->for($user)->dailyHabit()->create([
         'name' => 'Morning Routine'
     ]);
-    
+
     // Create regular project list
     $projectList = TodoList::factory()->for($user)->project()->create();
-    
+
     // Create todos for today in daily habit list
     Todo::factory()->for($dailyList)->today()->completed()->count(3)->create();
     Todo::factory()->for($dailyList)->today()->pending()->count(2)->create();
-    
+
     // Create todos in project list (should not appear in daily habits)
     Todo::factory()->for($projectList)->today()->completed()->count(1)->create();
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->has('dailyHabitsProgress', 1)
             ->where('dailyHabitsProgress.0.name', 'Morning Routine')
@@ -151,24 +154,25 @@ test('dashboard calculates quick stats accurately', function () {
     $user = User::factory()->create();
     $list1 = TodoList::factory()->for($user)->dailyHabit()->create();
     $list2 = TodoList::factory()->for($user)->project()->create();
-    
+
     // Create various todos
     Todo::factory()->for($list1)->completed()->count(3)->create();
     Todo::factory()->for($list2)->pending()->count(2)->create();
-    
+
     // Create this week's todos
     $weekStart = now()->startOfWeek();
     Todo::factory()->for($list1)->completed()->create([
         'created_at' => $weekStart->addDay(),
         'completed_at' => $weekStart->addDay()->addHours(2)
     ]);
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->where('quickStats.total_todos', 6)
             ->where('quickStats.completed_todos', 4)
@@ -182,29 +186,30 @@ test('dashboard calculates quick stats accurately', function () {
 test('dashboard shows recent activity correctly', function () {
     $user = User::factory()->create();
     $list = TodoList::factory()->for($user)->create(['name' => 'Work Tasks']);
-    
+
     // Create completed todos at different times
     $todo1 = Todo::factory()->for($list)->create([
         'title' => 'Most Recent Task',
         'priority' => 'high',
         'completed_at' => now()->subMinutes(5)
     ]);
-    
+
     $todo2 = Todo::factory()->for($list)->create([
         'title' => 'Older Task',
         'priority' => 'medium',
         'completed_at' => now()->subHours(2)
     ]);
-    
+
     // Create pending todo (should not appear in recent activity)
     Todo::factory()->for($list)->pending()->create();
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->has('recentActivity', 2)
             ->where('recentActivity.0.title', 'Most Recent Task')
@@ -217,25 +222,26 @@ test('dashboard shows recent activity correctly', function () {
 test('dashboard calculates streak information for daily habits', function () {
     $user = User::factory()->create();
     $dailyList = TodoList::factory()->for($user)->dailyHabit()->create();
-    
+
     // Create completed todos for consecutive days to build a streak
     // Note: Streak calculation logic is complex, so we test basic structure here
     Todo::factory()->for($dailyList)->create([
         'created_at' => now()->subDays(2),
         'completed_at' => now()->subDays(2)->addHours(2)
     ]);
-    
+
     Todo::factory()->for($dailyList)->create([
         'created_at' => now()->subDays(1),
         'completed_at' => now()->subDays(1)->addHours(2)
     ]);
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->has('streakInfo')
             ->where('streakInfo.streak_type', 'daily_habits')
@@ -247,28 +253,29 @@ test('dashboard calculates streak information for daily habits', function () {
 test('dashboard shows upcoming tasks correctly', function () {
     $user = User::factory()->create();
     $list = TodoList::factory()->for($user)->create(['name' => 'Future Plans']);
-    
+
     // Create upcoming tasks
     $upcomingTodo = Todo::factory()->for($list)->pending()->create([
         'title' => 'Upcoming Important Task',
         'priority' => 'high',
         'due_date' => now()->addDays(3)->format('Y-m-d')
     ]);
-    
+
     // Create overdue task (should not appear in upcoming)
     Todo::factory()->for($list)->overdue()->create();
-    
+
     // Create completed task with future due date (should not appear)
     Todo::factory()->for($list)->completed()->create([
         'due_date' => now()->addWeek()->format('Y-m-d')
     ]);
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->has('upcomingTasks', 1)
             ->where('upcomingTasks.0.title', 'Upcoming Important Task')
@@ -284,13 +291,14 @@ test('dashboard respects user timezone settings', function () {
     $setting = Setting::factory()->for($user)->create([
         'timezone' => 'America/New_York'
     ]);
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->has('todayStats')
             ->whereType('todayStats.date', 'string')
@@ -300,13 +308,14 @@ test('dashboard respects user timezone settings', function () {
 test('dashboard handles users without settings gracefully', function () {
     $user = User::factory()->create();
     // No settings created - should use UTC default
-    
+
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
-    
+
     $response->assertStatus(200)
-        ->assertInertia(fn ($page) => $page
+        ->assertInertia(
+            fn ($page) => $page
             ->component('Dashboard')
             ->where('todayStats.date', now()->format('Y-m-d'))
         );
