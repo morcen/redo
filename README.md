@@ -193,36 +193,6 @@ composer test:coverage-report
 # Then open coverage-html/index.html in your browser
 ```
 
-## 📁 Project Structure
-
-```
-app/
-├── Console/Commands/RecreateTodoForToday.php
-├── Http/Controllers/
-│   ├── TodoController.php
-│   └── TodoListController.php
-├── Models/
-│   ├── Todo.php
-│   ├── TodoList.php
-│   └── User.php
-
-resources/js/
-├── components/
-│   ├── ui/progress/Progress.vue
-│   ├── TodoForm.vue
-│   ├── TodoList.vue
-│   └── TodoListItem.vue
-├── pages/
-│   ├── Todos/Index.vue
-│   └── TodoLists/Index.vue
-└── types/index.d.ts
-
-database/
-├── migrations/
-├── factories/
-└── seeders/
-```
-
 ## 🆚 Why Choose Re:do Over Other Todo Apps?
 
 | Feature | Re:do | Traditional Todo Apps |
